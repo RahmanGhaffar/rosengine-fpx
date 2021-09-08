@@ -3,7 +3,7 @@
         <p class="message" :class="{ error: inputHandler.isError }">
             {{ inputHandler.inputMessage }}
         </p>
-        <div class="flex flex-row flex-1 relative w-full">
+        <div class="input-wrapper flex flex-row flex-1 relative w-full">
             <div
                 class="prefix"
                 v-if="!!prefix"
@@ -254,7 +254,7 @@ input {
     label {
         @apply flex-1 max-w-input-label mt-2;
     }
-    input {
+    .input_wrapper {
         @apply ml-8;
     }
 }
