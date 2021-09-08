@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full overflow-x-auto">
+    <div class="overflow-x-auto min-w-0 max-w-full">
         <table class="w-full table-auto">
             <thead>
                 <tr>
@@ -59,7 +59,6 @@
                 </tr>
             </tbody>
         </table>
-        <!-- <slot /> -->
     </div>
 </template>
 

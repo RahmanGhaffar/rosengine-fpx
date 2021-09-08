@@ -1,0 +1,156 @@
+
+{
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID",
+            "sortable": true,
+            "width": "100px",
+            "field": "id",
+            "filterable": true
+        },
+        {
+            "name": "name",
+            "label": "Name",
+            "field": "name"
+        },
+        {
+            "name": "age",
+            "label": "Age",
+            "sortable": true,
+            "field": "age",
+            "filterable": true
+        },
+        {
+            "name": "key",
+            "label": "Key",
+            "field": "key"
+        },
+        {
+            "name": "action",
+            "label": "Action",
+            "width": "100px"
+        },
+        {
+            "name": "name",
+            "label": "Name",
+            "field": "name"
+        },
+        {
+            "name": "age",
+            "label": "Age",
+            "sortable": true,
+            "field": "age",
+            "filterable": true
+        },
+        {
+            "name": "key",
+            "label": "Key",
+            "field": "key"
+        },
+        {
+            "name": "action",
+            "label": "Action",
+            "width": "100px"
+        },
+        {
+            "name": "name",
+            "label": "Name",
+            "field": "name"
+        },
+        {
+            "name": "age",
+            "label": "Age",
+            "sortable": true,
+            "field": "age",
+            "filterable": true
+        },
+        {
+            "name": "key",
+            "label": "Key",
+            "field": "key"
+        },
+        {
+            "name": "action",
+            "label": "Action",
+            "width": "100px"
+        },
+        {
+            "name": "name",
+            "label": "Name",
+            "field": "name"
+        },
+        {
+            "name": "age",
+            "label": "Age",
+            "sortable": true,
+            "field": "age",
+            "filterable": true
+        },
+        {
+            "name": "key",
+            "label": "Key",
+            "field": "key"
+        },
+        {
+            "name": "action",
+            "label": "Action",
+            "width": "100px"
+        },
+        {
+            "name": "name",
+            "label": "Name",
+            "field": "name"
+        },
+        {
+            "name": "age",
+            "label": "Age",
+            "sortable": true,
+            "field": "age",
+            "filterable": true
+        },
+        {
+            "name": "key",
+            "label": "Key",
+            "field": "key"
+        },
+        {
+            "name": "action",
+            "label": "Action",
+            "width": "100px"
+        },
+        {
+            "name": "name",
+            "label": "Name",
+            "field": "name"
+        },
+        {
+            "name": "age",
+            "label": "Age",
+            "sortable": true,
+            "field": "age",
+            "filterable": true
+        },
+        {
+            "name": "key",
+            "label": "Key",
+            "field": "key"
+        },
+        {
+            "name": "action",
+            "label": "Action",
+            "width": "100px"
+        }
+    ],
+    "pagination": {
+        "currentPage": 1,
+        "entrySize": 10,
+        "currentSort": {
+            "column": "id",
+            "order": "asc"
+        },
+        "filterOptions": [],
+        "showEntries": [5, 10, 25, 50, 100, 1000],
+        "checkable": true
+    }
+}

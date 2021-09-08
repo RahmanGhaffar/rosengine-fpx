@@ -1,5 +1,11 @@
 <template>
-    <div class="min-h-screen flex items-center justify-center">
+    <div
+        class="min-h-screen flex items-center justify-center"
+        :class="[background]"
+        :style="{
+            backgroundImage: `url(${props.backgroundImage})`,
+        }"
+    >
         <Card cardClass="w-full max-w-md items-center">
             <slot />
         </Card>
@@ -11,10 +17,12 @@ import Card from "@/components/containers/Card.vue";
 import { defineProps, withDefaults } from "vue";
 
 type Props = {
-    background: string;
+    background?: string;
+    backgroundImage?: string;
 };
 
 const props = withDefaults(defineProps<Props>(), {
     background: "bg-baseBg",
+    backgroundImage: "",
 });
 </script>

@@ -10,6 +10,7 @@
             gap-4
             transition-all
             duration-300
+            w-full
         "
         :class="[props.cardType, props.cardClass]"
         v-if="!state.isClosed"

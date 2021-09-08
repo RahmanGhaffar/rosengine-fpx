@@ -126,9 +126,13 @@
 @tailwind utilities;
 @tailwind variants;
 
-@import "styles/_text.css";
-@import "styles/_button.css";
-@import "styles/_table.css";
+@import "styles/_text.postcss";
+@import "styles/_button.postcss";
+@import "styles/_table.postcss";
+
+#app {
+    @apply flex flex-row max-w-screen-vw;
+}
 
 input {
     @apply placeholder-light-600;

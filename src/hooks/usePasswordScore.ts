@@ -1,24 +1,9 @@
 import { ref, reactive, computed } from "vue";
+import { PasswordScore } from "types";
 
-type Errors = {
-    lowerChar: boolean;
-    upperChar: boolean;
-    specialChar: boolean;
-    digitChar: boolean;
-    validLength: boolean;
-    repetitive: boolean;
-};
-
-type Validator = {
-    level: number;
-    errors: Errors;
-};
-
-type UsePasswordScore = (password: string) => Validator;
-
-const usePasswordScore: UsePasswordScore = (password) => {
+const usePasswordScore: PasswordScore.UsePasswordScore = (password) => {
     const score = ref(0);
-    const errors = reactive<Errors>({
+    const errors = reactive<PasswordScore.Errors>({
         lowerChar: false,
         upperChar: false,
         specialChar: false,
@@ -101,4 +86,4 @@ const usePasswordScore: UsePasswordScore = (password) => {
     };
 };
 
-export { usePasswordScore as default, Errors };
+export { usePasswordScore as default };

@@ -132,6 +132,38 @@
                     </table>
                 </div>
             </Card>
+            <Card title="Emits">
+                <p>
+                    Here are the list of available emits for
+                    <code>Input</code> component:
+                </p>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <td>Emit</td>
+                                <td>Parameters</td>
+                                <td class="w-1/3">Notes</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>update</code></td>
+                                <td>
+                                    <pre class="code">{{
+                                        codeSample.emitUpdateParams
+                                    }}</pre>
+                                </td>
+                                <td>
+                                    For exposing input value to component. Refer
+                                    to form guides for more info.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </Card>
             <Card title="Sample: Side Label">
                 <Input id="test-input-1" label-position="side" label="Name" />
                 <Input
@@ -288,5 +320,9 @@ const codeSample = {
 <script setup lang="ts">
 import Input from "@/components/forms/Input.vue";
 <script>`,
+    emitUpdateParams: `payload: {
+    name: string,
+    value: string | number
+}`,
 };
 </script>

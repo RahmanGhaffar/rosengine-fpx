@@ -28,6 +28,7 @@
                         : 'password'
                 "
                 :id="props.id"
+                :name="props.name"
                 :required="required"
                 :placeholder="
                     labelPosition === 'float' ? undefined : placeholder
@@ -130,7 +131,13 @@ const props = defineProps({
 });
 
 type Emits = {
-    (e: "update", value: string | number): void;
+    (
+        e: "update",
+        payload: {
+            name: string;
+            value: string | number;
+        }
+    ): void;
 };
 
 const emit = defineEmits<Emits>();
@@ -170,7 +177,7 @@ const handleChange = ({ target }: { target: HTMLInputElement }) => {
         inputHandler.prevInput = undefined;
     }
 
-    emit("update", target.value);
+    emit("update", { name: props.id, value: target.value });
 };
 
 const handleBlur = ({ target }: { target: HTMLInputElement }) => {

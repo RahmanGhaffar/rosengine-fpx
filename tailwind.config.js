@@ -123,6 +123,7 @@ module.exports = {
             },
             maxWidth: {
                 "input-label": "15ch",
+                "screen-vw": "100vw",
             },
             maxHeight: {
                 "2/3": "66.7%",

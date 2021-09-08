@@ -4,6 +4,6 @@ import "./registerServiceWorker";
 import router from "./router";
 import { store, key } from "./store";
 
-import "./index.css";
+import "./index.postcss";
 
 createApp(App).use(store, key).use(router).mount("#app");
