@@ -13,9 +13,9 @@
     "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "allowJs": true,
     "types": [
       "webpack-env",
-      
       "@wdio/mocha-framework",
       "expect-webdriverio",
       "webdriverio/sync",
@@ -25,7 +25,17 @@
     "paths": {
       "@/*": [
         "src/*"
-      ]
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@components": [
+        "src/components/index.js",
+        "src/components/index.json",
+        "src/components/index.vue",
+        "src/components/index.scss",
+        "src/components/index.css"
+      ],
     },
     "lib": [
       "esnext",
@@ -39,8 +49,9 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
-, "types.d.ts"  ],
+    "tests/**/*.tsx",
+    "types.d.ts"
+  ],
   "exclude": [
     "node_modules"
   ]

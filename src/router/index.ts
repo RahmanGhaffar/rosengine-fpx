@@ -2,17 +2,59 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 import Page404 from "../views/404.vue";
 
+// const routes: Array<RouteRecordRaw> = [
+//     // {
+//     //     path: "/",
+//     //     name: "Home",
+//     //     component: Home,
+//     // },
+//     {
+//         path: "/",
+//         name: "Transaction Report",
+//         component: () => import("../views/transactionReport.vue"),
+//     },
+//     // {
+//     //     path: "/test",
+//     //     name: "Transaction Report",
+//     //     component: () => import("../views/testing.vue"),
+//     // },
+// ];
+
 const routes: Array<RouteRecordRaw> = [
+    // Transaction Report
+    {
+        path: "/",
+        name: "Transaction Report",
+        component: () => import("../views/transactionReport.vue"),
+    },
+
+    // Configuration
+    {
+        path: "/config/list",
+        name: "configurationList",
+        component: () => import("../views/configuration/list.vue"),
+    },
+    {
+        path: "/config/manage",
+        name: "configurationManage",
+        component: () => import("../views/configuration/manage.vue"),
+    },
+    {
+        path: "/config/add",
+        name: "configurationAdd",
+        component: () => import("../views/configuration/add.vue"),
+    },
+
     {
         path: "/welcome",
         name: "Welcome",
         component: () => import("../views/Welcome.vue"),
     },
-    {
-        path: "/",
-        name: "Home",
-        component: Home,
-    },
+    // {
+    //     path: "/",
+    //     name: "Home",
+    //     component: Home,
+    // },
     {
         path: "/about",
         name: "About",

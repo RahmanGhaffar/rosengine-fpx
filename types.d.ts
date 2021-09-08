@@ -23,7 +23,6 @@ export declare namespace Table {
     };
 
     type Pagination = {
-        // totalEntries: number;
         currentPage: number;
         entrySize: number;
         showEntries: Array<number>;

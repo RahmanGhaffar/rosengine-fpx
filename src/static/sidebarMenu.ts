@@ -17,16 +17,41 @@ type MenuList = Array<MenuItem>;
 
 export const sidebarMenu: MenuList = [
     {
+        id: "transactionReport",
+        label: "Transaction Report",
+        icon: "faClipboard",
+        path: "/",
+    },
+    {
+        id: "configuration",
+        label: "Configuration",
+        icon: "faWrench",
+        subMenu: [
+            {
+                id: "configurationList",
+                label: "Configuration List",
+                icon: "",
+                path: "/config/list",
+            },
+            {
+                id: "configurationManage",
+                label: "Manage Configuration",
+                icon: "",
+                path: "/config/manage",
+            },
+            {
+                id: "configurationAdd",
+                label: "Add Configuration",
+                icon: "",
+                path: "/config/add",
+            },
+        ],
+    },
+    {
         id: "welcome",
         label: "Welcome",
         icon: "faCouch",
         path: "/welcome",
-    },
-    {
-        id: "menu-dashboard",
-        label: "Dashboard",
-        icon: "faTachometerAlt",
-        path: "/",
     },
     {
         id: "menu-basic-component",

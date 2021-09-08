@@ -1,5 +1,5 @@
 {
-  "name": "neo-corrad-v1",
+  "name": "Rosengine-FPX",
   "version": "0.1.2",
   "private": true,
   "scripts": {
@@ -21,6 +21,7 @@
     "vue": "^3.2.7",
     "vue-code-highlight": "^0.7.8",
     "vue-router": "^4.0.3",
+    "vue-tailwind": "^2.4.2",
     "vuex": "^4.0.0"
   },
   "devDependencies": {

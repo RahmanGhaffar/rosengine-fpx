@@ -2,7 +2,7 @@
     <section
         class="
             w-0
-            bg-primary-500
+            bg-light-100
             md:w-sidebar-expand
             h-screen
             sticky
@@ -28,7 +28,10 @@
                 px-12
             "
         >
-            <img src="@/assets/logo/logo-corrad-white.svg" alt="Corrad" />
+            <img
+                src="https://assets-rosengine.s3.ap-southeast-1.amazonaws.com/images/rosengine-logo-fpx.png"
+                alt="Rosengine FPX"
+            />
         </div>
         <nav class="py-4 px-2 flex-1 overflow-y-auto">
             <!-- First level navigation -->
@@ -218,6 +221,7 @@
 import { computed, reactive } from "vue";
 import { useStore } from "@/store";
 import {
+    faClipboard,
     faTachometerAlt,
     faClipboardList,
     faChevronDown,
@@ -233,6 +237,7 @@ import {
     faUser,
     faBox,
     faInfo,
+    faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useRouter } from "vue-router";
@@ -244,6 +249,7 @@ type State = {
 const router = useRouter();
 const store = useStore();
 const icon = computed(() => ({
+    faClipboard,
     faTachometerAlt,
     faClipboardList,
     faChevronDown,
@@ -259,6 +265,7 @@ const icon = computed(() => ({
     faUser,
     faBox,
     faInfo,
+    faWrench,
 }));
 
 const currentRoute = router.currentRoute.value.fullPath;
@@ -305,6 +312,9 @@ menuList.forEach((menuItem) => {
 </script>
 
 <style scoped>
+img {
+    @apply max-h-full;
+}
 ul {
     @apply list-none;
 }
@@ -313,11 +323,11 @@ ul {
 }
 
 nav button {
-    @apply h-12 w-full text-left px-4 py-2 rounded-md flex flex-row gap-2 items-center hover:bg-primary-400 focus:bg-primary-400;
+    @apply h-12 w-full text-left px-4 py-2 rounded-md flex flex-row gap-2 items-center text-primary-400  hover:text-white focus:text-white hover:bg-primary-400 focus:bg-primary-400;
 }
 
 nav button[data-active="true"] {
-    @apply bg-primary-600;
+    @apply bg-primary-600 text-white;
 }
 
 /* button:focus ~ ul {
