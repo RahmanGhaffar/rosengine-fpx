@@ -21,6 +21,7 @@ type Props = {
     backgroundImage?: string;
 };
 
+// eslint-disable-next-line
 const props = withDefaults(defineProps<Props>(), {
     background: "bg-baseBg",
     backgroundImage: "",

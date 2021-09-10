@@ -1,11 +1,11 @@
 <template>
     <Layout>
         <section class="flex flex-col gap-2">
-            <h5>Transaction Report</h5>
+            <h5>API Log</h5>
         </section>
         <Card>
             <form @submit.prevent="searchReport" class="">
-                <div class="flex gap-4">
+                <div class="grid lg:grid-cols-2 md:grid-cols-1 gap-4">
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
                         <!-- Date Input -->
                         <Input
@@ -14,35 +14,63 @@
                             label="From"
                         />
                         <Input id="toInput" label-position="side" label="To" />
-                        <Input
-                            id="exchangeInput"
-                            label-position="side"
-                            label="Exchange ID"
-                        />
-                        <Input
-                            id="statusInput"
-                            label-position="side"
-                            label="Transaction Status (Successful/ Pending/ Unsuccessful)"
-                        />
+                        <div class="grid lg:grid-cols-8 md:grid-cols-2 gap-2">
+                            <label
+                                class="
+                                    lg:col-span-2
+                                    md:row-span-4 md:col-span-1
+                                    sm:col-span-1
+                                "
+                                >Type</label
+                            >
+                            <Checkbox
+                                id="cbType"
+                                label="inbound from system"
+                                checkbox-position="right"
+                                :spaced="false"
+                                @update="handleUpdate"
+                                class="lg:col-span-3 sm:col-span-1"
+                            />
+                            <Checkbox
+                                id="cbType"
+                                label="outbound to system"
+                                checkbox-position="right"
+                                :spaced="false"
+                                @update="handleUpdate"
+                                class="lg:col-span-3 sm:col-span-1"
+                            />
+                            <Checkbox
+                                id="cbType"
+                                label="inbound from provider"
+                                checkbox-position="right"
+                                :spaced="false"
+                                @update="handleUpdate"
+                                class="lg:col-span-3 sm:col-span-1"
+                            />
+                            <Checkbox
+                                id="cbType"
+                                label="outbound to provider"
+                                checkbox-position="right"
+                                :spaced="false"
+                                @update="handleUpdate"
+                                class="lg:col-span-3 sm:col-span-1"
+                            />
+                        </div>
                     </div>
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
                         <Input
                             id="statusInput"
                             label-position="side"
-                            label="Seller ID (Dropdown)"
+                            label="Trigger System (Dropdown)"
                         /><Input
                             id="statusInput"
                             label-position="side"
-                            label="FPX Transaction ID"
-                        /><Input
-                            id="statusInput"
-                            label-position="side"
-                            label="Merchant Transaction ID"
+                            label="Send Address (Dropdown)"
                         />
                     </div>
                 </div>
 
-                <div class="flex justify-between">
+                <div class="flex justify-between mt-3">
                     <button
                         type="reset"
                         class="btn-light btn-base"
@@ -77,7 +105,10 @@
                     {{ entry.age }}
                 </template>
                 <template #row_action="">
-                    <button class="btn-primary btn-sm">Submit</button>
+                    <div class="flex gap-3 justify-center">
+                        <button class="btn-ligt btn-sm">View</button>
+                        <button class="btn-info btn-sm">Download</button>
+                    </div>
                 </template>
             </TableData>
         </Card>
@@ -86,6 +117,7 @@
 
 <script setup lang="ts">
 // Importing components
+import Checkbox from "@/components/forms/Checkbox.vue";
 import Layout from "@/components/layouts/Dashboard.vue";
 import Card from "@/components/containers/Card.vue";
 import TableData from "@/components/containers/TableData.vue";
@@ -104,64 +136,33 @@ const dataState = reactive({
 const tableConfig = reactive({
     columns: [
         {
-            name: "triggerDateTime",
-            label: "Trigger Date Time",
-            field: "triggerDateTime",
+            name: "logConfiguration",
+            label: "Configuration",
         },
         {
-            name: "fpxTransactionId",
-            label: "FPX Transaction ID",
-            field: "fpxTransactionId",
+            name: "logType",
+            label: "Type",
         },
         {
-            name: "merchantTransactionId",
-            label: "Merchant Transaction ID",
-            field: "merchantTransactionId",
+            name: "exchangeId",
+            label: "Exchange ID",
         },
         {
-            name: "amount",
-            label: "Amount (RM)",
-            field: "amount",
+            name: "sellerId",
+            label: "Seller ID",
         },
         {
-            name: "reportStatus",
-            label: "Status",
+            name: "logDate",
+            label: "Log Date",
         },
         {
             name: "reportReason",
             label: "Reason",
         },
         {
-            name: "statusDatetime",
-            label: "Status Date Time",
-        },
-        {
-            name: "buyer Bank",
-            label: "Buyer Bank",
-        },
-        {
-            name: "buyerBank",
-            label: "Buyer Bank",
-        },
-        {
-            name: "buyerName",
-            label: "Buyer Name",
-        },
-        {
-            name: "buyerEmail",
-            label: "Exchange ID",
-        },
-        {
-            name: "selerId",
-            label: "Seller ID",
-        },
-        {
-            name: "configuration",
-            label: "Configuration",
-        },
-        {
             name: "action",
-            label: "Action",
+            label: "action",
+            titleAlign: "center",
         },
     ],
     pagination: {

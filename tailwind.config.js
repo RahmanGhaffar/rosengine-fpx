@@ -132,6 +132,10 @@ module.exports = {
                 danger: "0 0 4px var(--danger-500)",
                 focus: "0 0 4px var(--primary-300)",
             },
+            gridAutoColumns: {
+                "1fr": "minmax(0, 1fr)",
+                "2fr": "minmax(0, 2fr)",
+            },
         },
     },
     variants: {

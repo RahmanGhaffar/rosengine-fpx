@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
     <Layout>
         <section class="flex flex-col gap-2">

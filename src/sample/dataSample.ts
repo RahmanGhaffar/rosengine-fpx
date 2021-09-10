@@ -17,6 +17,7 @@ export const getData: GetData = ({
     size = 0,
     page = 1,
     // TODO: Add filter functions
+    // eslint-disable-next-line
     // filterOptions = [],
     sortOption = {},
 }) => {

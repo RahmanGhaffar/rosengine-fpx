@@ -48,6 +48,12 @@ export const sidebarMenu: MenuList = [
         ],
     },
     {
+        id: "apiLog",
+        label: "API Log",
+        icon: "faFileAlt",
+        path: "/api/log",
+    },
+    {
         id: "welcome",
         label: "Welcome",
         icon: "faCouch",

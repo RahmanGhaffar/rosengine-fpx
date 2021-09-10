@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
+// import Home from "../views/Home.vue";
 import Page404 from "../views/404.vue";
 
 // const routes: Array<RouteRecordRaw> = [
@@ -25,7 +25,8 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
         name: "Transaction Report",
-        component: () => import("../views/transactionReport.vue"),
+        component: () =>
+            import("../views/transactionReport/transactionReport.vue"),
     },
 
     // Configuration
@@ -45,6 +46,12 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("../views/configuration/add.vue"),
     },
 
+    // API Log
+    {
+        path: "/api/log",
+        name: "apiLog",
+        component: () => import("../views/apiLog/apiLog.vue"),
+    },
     {
         path: "/welcome",
         name: "Welcome",
