@@ -51,7 +51,7 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "types.d.ts"
-  ],
+, "src/main.js"  ],
   "exclude": [
     "node_modules"
   ]

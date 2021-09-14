@@ -8,18 +8,15 @@
                 <div class="grid lg:grid-cols-2 md:grid-cols-1 gap-4">
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
                         <!-- Date Input -->
-                        <Input
-                            id="fromInput"
-                            label-position="side"
-                            label="From"
-                        />
+                        <t-input value="Hello world" name="my-input" />
+
                         <Input id="toInput" label-position="side" label="To" />
                         <Input
                             id="exchangeInput"
                             label-position="side"
                             label="Exchange ID"
                         />
-                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div class="grid md:grid-cols-2 lg:grid-cols-4">
                             <label class="max-w-input-label md:row-span-3"
                                 >Transaction Status</label
                             >
