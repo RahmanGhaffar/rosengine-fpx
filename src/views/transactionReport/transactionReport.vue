@@ -7,10 +7,30 @@
             <form @submit.prevent="searchReport" class="">
                 <div class="grid lg:grid-cols-2 md:grid-cols-1 gap-4">
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
-                        <!-- Date Input -->
-                        <t-input value="Hello world" name="my-input" />
+                        <div class="flex items-baseline input-group">
+                            <!-- Date Input -->
+                            <label class="flex-1 max-w-input-label">From</label>
+                            <flat-pickr
+                                v-model="searchForm.from"
+                                :config="searchForm.config"
+                                class=""
+                                placeholder="Select date"
+                                name="date"
+                            />
+                        </div>
 
-                        <Input id="toInput" label-position="side" label="To" />
+                        <div class="flex items-baseline input-group">
+                            <!-- Date Input -->
+                            <label class="flex-1 max-w-input-label">To</label>
+                            <flat-pickr
+                                v-model="searchForm.to"
+                                :config="searchForm.config"
+                                class=""
+                                placeholder="Select date"
+                                name="date"
+                            />
+                        </div>
+
                         <Input
                             id="exchangeInput"
                             label-position="side"
@@ -115,7 +135,8 @@ import Input from "@/components/forms/Input.vue";
 import { reactive, watchEffect } from "vue";
 // import tableConfig from "@/sample/tableConfig.json";
 import { getData, GetDataProps } from "@/sample/dataSample";
-
+import flatPickr from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
 const { entries, totalRows } = getData({});
 
 const dataState = reactive({
@@ -206,6 +227,12 @@ const pagination = reactive<Table.Pagination>({
 // serach Form Function
 const searchForm = reactive({
     isOpen: false,
+    from: "",
+    to: "",
+    config: {
+        dateFormat: "Y-m-d H:i",
+        enableTime: true,
+    },
 });
 
 const searchReport = () => {
@@ -257,3 +284,14 @@ const handleResize = (size: number) => {
     pagination.entrySize = size;
 };
 </script>
+
+<style scoped lang="postcss">
+.input-group {
+    @apply mr-4;
+
+    & >>> input {
+        @apply border rounded-md border-light-500 py-2 px-4 flex-1 w-full min-w-input outline-none transition-all duration-300 ease-in-out;
+        @apply hover:border-light-600 focus:border-primary-300 focus:shadow-focus;
+    }
+}
+</style>

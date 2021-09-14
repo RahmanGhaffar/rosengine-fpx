@@ -72,7 +72,10 @@ const apiDocs = reactive({
 });
 
 const bufferToString = (buffer) => {
-    return Buffer.from(buffer).toString();
+    console.log(buffer.data);
+    return buffer.data.length !== 0
+        ? Buffer.from(buffer).toString()
+        : ",:) *In development* ,:)";
 };
 </script>
 
@@ -94,6 +97,10 @@ th {
     & >>> h5,
     & >>> h6 {
         @apply mt-8;
+    }
+
+    & >>> table {
+        @apply w-full;
     }
 }
 </style>
