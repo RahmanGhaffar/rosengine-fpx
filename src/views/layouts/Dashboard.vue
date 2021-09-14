@@ -8,7 +8,7 @@
                 <p>This is the dashboard layout.</p>
                 <div class="max-w-3xl">
                     <code-highlight languange="typescript">
-                        {{ codeSample.importCard }}
+                        {{ importDashboardLayout }}
                     </code-highlight>
                 </div>
 
@@ -28,15 +28,5 @@ import CodeHighlight from "vue-code-highlight/src/CodeHighlight.vue";
 import "vue-code-highlight/themes/duotone-sea.css";
 import "vue-code-highlight/themes/window.css";
 
-const codeSample = {
-    importCard: `<template>
-    <DashboardLayout>
-        <!-- Your content -->
-    </DashboardLayout>
-</template>
-
-<script setup lang="ts">
-import DashboardLayout from "@/components/layouts/Dashboard.vue";
-<script>`,
-};
+import { importDashboardLayout } from "@/sample/codeSample";
 </script>

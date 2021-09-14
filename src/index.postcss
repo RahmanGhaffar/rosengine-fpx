@@ -5,6 +5,8 @@
 :root {
     font-size: 14px;
 
+
+    /* font-size: 15px; */
     --black: #000000;
     --white: #FFFFFF;
 
@@ -126,9 +128,13 @@
 @tailwind utilities;
 @tailwind variants;
 
-@import "styles/_text.css";
-@import "styles/_button.css";
-@import "styles/_table.css";
+@import "styles/_text.postcss";
+@import "styles/_button.postcss";
+@import "styles/_table.postcss";
+
+#app {
+    @apply flex flex-row max-w-screen-vw bg-baseBg;
+}
 
 input {
     @apply placeholder-light-600;

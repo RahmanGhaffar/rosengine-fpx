@@ -311,10 +311,11 @@ menuList.forEach((menuItem) => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
 img {
     @apply max-h-full;
 }
+
 ul {
     @apply list-none;
 }

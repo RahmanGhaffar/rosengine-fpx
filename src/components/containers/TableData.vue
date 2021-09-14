@@ -61,7 +61,7 @@
                 </select>
                 <!-- TODO: Depends on column type -->
                 <!-- Maybe considering constructing column model? -->
-                <CInput
+                <Input
                     :id="`filter-value-${filterOption.filterId}`"
                     name="filter-value"
                     :defaultValue="filterOption.value"
@@ -219,7 +219,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import TableBase from "./TableBase.vue";
-import CInput from "@/components/forms/Input.vue";
+import Input from "@/components/forms/Input.vue";
 
 type Props = {
     columns?: Array<Table.Column>;

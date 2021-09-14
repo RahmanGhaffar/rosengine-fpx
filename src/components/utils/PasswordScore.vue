@@ -16,12 +16,12 @@
 
 <script setup lang="ts">
 import { defineProps, withDefaults } from "vue";
-import { Errors } from "@/hooks/usePasswordScore";
+import { PasswordScore } from "types";
 import { faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 type Props = {
-    validator: Errors;
+    validator: PasswordScore.Errors;
     checklistVisible: boolean;
 };
 

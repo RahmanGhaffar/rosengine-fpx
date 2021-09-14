@@ -14,9 +14,10 @@ type GetData = (params: GetDataProps) => {
 };
 
 export const getData: GetData = ({
-    size = 10,
+    size = 0,
     page = 1,
-    filterOptions = [],
+    // TODO: Add filter functions
+    // filterOptions = [],
     sortOption = {},
 }) => {
     const selectedData = data;
@@ -45,7 +46,13 @@ export const getData: GetData = ({
     const firstIndex = (page - 1) * size;
     const lastIndex = page * size;
 
-    const truncatedData = sortedData.slice(firstIndex, lastIndex);
+    const truncatedData =
+        size === 0 ? sortedData : sortedData.slice(firstIndex, lastIndex);
+
+    console.log({
+        size,
+        truncatedData,
+    });
 
     return {
         entries: truncatedData,

@@ -17,7 +17,7 @@
                     Here is the usage example in the code.
 
                     <code-highlight languange="typescript">
-                        {{ codeSample.importCard }}
+                        {{ buttonUsage }}
                     </code-highlight>
                 </p>
             </Card>
@@ -540,11 +540,5 @@ import CodeHighlight from "vue-code-highlight/src/CodeHighlight.vue";
 import "vue-code-highlight/themes/duotone-sea.css";
 import "vue-code-highlight/themes/window.css";
 
-const codeSample = {
-    importCard: `<template>
-    <button class="btn-primary btn-base">
-        Submit
-    </button>
-</template>`,
-};
+import { buttonUsage } from "@/sample/codeSample";
 </script>

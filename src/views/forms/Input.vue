@@ -12,7 +12,7 @@
 
                 <div class="max-w-3xl">
                     <code-highlight languange="typescript">
-                        {{ codeSample.importInput }}
+                        {{ importInput }}
                     </code-highlight>
                 </div>
             </Card>
@@ -132,6 +132,38 @@
                     </table>
                 </div>
             </Card>
+            <Card title="Emits">
+                <p>
+                    Here are the list of available emits for
+                    <code>Input</code> component:
+                </p>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <td>Emit</td>
+                                <td>Parameters</td>
+                                <td class="w-1/3">Notes</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>update</code></td>
+                                <td>
+                                    <pre class="code">{{
+                                        codeSample.emitUpdateParams
+                                    }}</pre>
+                                </td>
+                                <td>
+                                    For exposing input value to component. Refer
+                                    to form guides for more info.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </Card>
             <Card title="Sample: Side Label">
                 <Input id="test-input-1" label-position="side" label="Name" />
                 <Input
@@ -237,30 +269,35 @@
                 />
             </Card>
             <Card title="Sample: Prefixes and Postfixes">
-                <Input
-                    id="test-input-1"
-                    label-position="float"
-                    label="Price (with prefix)"
-                    type="number"
-                    min="1"
-                    prefix="MYR"
-                    minlength="10"
-                />
-                <Input
-                    id="test-input-1"
-                    label-position="float"
-                    label="Email (with postfix)"
-                    postfix="@corrad.com"
-                    minlength="5"
-                />
-                <Input
-                    id="test-input-1"
-                    label-position="float"
-                    label="Email (with prefix &amp; postfix)"
-                    prefix="user."
-                    postfix="@corrad.com"
-                    minlength="5"
-                />
+                <form @submit.prevent="handleSubmit">
+                    <Input
+                        id="test-input-1"
+                        label-position="float"
+                        label="Price (with prefix)"
+                        type="number"
+                        min="1"
+                        prefix="MYR"
+                        minlength="10"
+                    />
+                    <Input
+                        id="test-input-2"
+                        label-position="float"
+                        label="Email (with postfix)"
+                        postfix="@corrad.com"
+                        minlength="5"
+                    />
+                    <Input
+                        id="test-input-3"
+                        label-position="float"
+                        label="Email (with prefix &amp; postfix)"
+                        prefix="user."
+                        postfix="@corrad.com"
+                        minlength="5"
+                    />
+                    <button class="btn-primary btn-base" type="submit">
+                        Submit
+                    </button>
+                </form>
             </Card>
         </section>
     </Layout>
@@ -276,17 +313,17 @@ import "vue-code-highlight/themes/window.css";
 import { faFlask } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-const codeSample = {
-    importInput: `<template>
-    <Input
-        id="test-input-1"
-        label-position="float"
-        label="Name"
-    />
-</template>
+import { importInput } from "@/sample/codeSample";
 
-<script setup lang="ts">
-import Input from "@/components/forms/Input.vue";
-<script>`,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const handleSubmit = ({ target }: { target: HTMLFormElement }) => {
+    console.log(target.elements);
+};
+
+const codeSample = {
+    emitUpdateParams: `payload: {
+    name: string,
+    value: string | number
+}`,
 };
 </script>
