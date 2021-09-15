@@ -105,6 +105,11 @@ const routes: Array<RouteRecordRaw> = [
 
     // FORMS ROUTES
     {
+        path: "/forms/guides",
+        name: "Form Guide",
+        component: () => import("../views/forms/Guides.vue"),
+    },
+    {
         path: "/forms/input",
         name: "Input",
         component: () => import("../views/forms/Input.vue"),
@@ -113,6 +118,11 @@ const routes: Array<RouteRecordRaw> = [
         path: "/forms/checkbox",
         name: "Checkbox",
         component: () => import("../views/forms/Checkbox.vue"),
+    },
+    {
+        path: "/forms/dropdown",
+        name: "Dropdown",
+        component: () => import("../views/forms/Dropdown.vue"),
     },
 
     // CONTAINERS ROUTES

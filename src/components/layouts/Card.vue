@@ -1,6 +1,6 @@
 <template>
     <div
-        class="min-h-screen flex items-center justify-center"
+        class="min-h-screen flex items-center justify-center flex-1"
         :class="[background]"
         :style="{
             backgroundImage: `url(${props.backgroundImage})`,

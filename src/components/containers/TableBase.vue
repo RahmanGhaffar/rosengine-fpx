@@ -69,7 +69,7 @@ import { defineProps, withDefaults } from "vue";
 type Props = {
     columns?: Array<Table.Column>;
     entries?: Array<Table.Entry>;
-    currentSort: Table.CurrentSort;
+    currentSort?: Table.CurrentSort;
     checkable?: boolean;
 };
 

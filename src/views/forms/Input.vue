@@ -12,7 +12,7 @@
 
                 <div class="max-w-3xl">
                     <code-highlight languange="typescript">
-                        {{ codeSample.importInput }}
+                        {{ importInput }}
                     </code-highlight>
                 </div>
             </Card>
@@ -269,30 +269,35 @@
                 />
             </Card>
             <Card title="Sample: Prefixes and Postfixes">
-                <Input
-                    id="test-input-1"
-                    label-position="float"
-                    label="Price (with prefix)"
-                    type="number"
-                    min="1"
-                    prefix="MYR"
-                    minlength="10"
-                />
-                <Input
-                    id="test-input-1"
-                    label-position="float"
-                    label="Email (with postfix)"
-                    postfix="@corrad.com"
-                    minlength="5"
-                />
-                <Input
-                    id="test-input-1"
-                    label-position="float"
-                    label="Email (with prefix &amp; postfix)"
-                    prefix="user."
-                    postfix="@corrad.com"
-                    minlength="5"
-                />
+                <form @submit.prevent="handleSubmit">
+                    <Input
+                        id="test-input-1"
+                        label-position="float"
+                        label="Price (with prefix)"
+                        type="number"
+                        min="1"
+                        prefix="MYR"
+                        minlength="10"
+                    />
+                    <Input
+                        id="test-input-2"
+                        label-position="float"
+                        label="Email (with postfix)"
+                        postfix="@corrad.com"
+                        minlength="5"
+                    />
+                    <Input
+                        id="test-input-3"
+                        label-position="float"
+                        label="Email (with prefix &amp; postfix)"
+                        prefix="user."
+                        postfix="@corrad.com"
+                        minlength="5"
+                    />
+                    <button class="btn-primary btn-base" type="submit">
+                        Submit
+                    </button>
+                </form>
             </Card>
         </section>
     </Layout>
@@ -308,18 +313,14 @@ import "vue-code-highlight/themes/window.css";
 import { faFlask } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-const codeSample = {
-    importInput: `<template>
-    <Input
-        id="test-input-1"
-        label-position="float"
-        label="Name"
-    />
-</template>
+import { importInput } from "@/sample/codeSample";
 
-<script setup lang="ts">
-import Input from "@/components/forms/Input.vue";
-<script>`,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const handleSubmit = ({ target }: { target: HTMLFormElement }) => {
+    console.log(target.elements);
+};
+
+const codeSample = {
     emitUpdateParams: `payload: {
     name: string,
     value: string | number

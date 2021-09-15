@@ -65,6 +65,8 @@ import usePasswordScore from "@/hooks/usePasswordScore";
 
 import background from "@/assets/images/background_sample.svg";
 
+// const background = () => require("@/assets/images/background_sample.svg");
+
 type Password = {
     new: string;
     confirm: string;

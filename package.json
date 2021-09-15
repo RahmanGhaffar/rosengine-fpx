@@ -23,6 +23,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-4",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/line-clamp": "^0.2.1",
+    "@vueuse/core": "^6.3.3",
     "core-js": "^3.17.1",
     "markdown-it-emoji": "^2.0.0",
     "register-service-worker": "^1.7.2",

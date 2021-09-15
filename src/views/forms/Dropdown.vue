@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
     <Layout>
         <section class="flex flex-col gap-2">
@@ -7,17 +6,17 @@
         <section class="flex flex-col gap-8">
             <Card title="Introduction">
                 <p>
-                    Checkbox is one of the crucial element in a web app. A more
+                    Dropdown is one of the crucial element in a web app. A more
                     intuitive input will ease user experience.
                 </p>
 
                 <div class="max-w-3xl w-full">
                     <code-highlight languange="typescript">
-                        {{ importCheckbox }}
+                        {{ importDropdown }}
                     </code-highlight>
                 </div>
             </Card>
-            <Card title="Props">
+            <!-- <Card title="Props">
                 <p>
                     Here are the list of acceptable props for
                     <code>Checkbox</code> component:
@@ -114,8 +113,8 @@
                         </tbody>
                     </table>
                 </div>
-            </Card>
-            <Card title="Emits">
+            </Card> -->
+            <!-- <Card title="Emits">
                 <p>
                     Here are the list of available emits for
                     <code>Checkbox</code> component:
@@ -146,8 +145,8 @@
                         </tbody>
                     </table>
                 </div>
-            </Card>
-            <Card title="Sample: Left Checkbox">
+            </Card> -->
+            <!-- <Card title="Sample: Left Checkbox">
                 <p class="text-dark-500 font-bold">Your favourite food:</p>
                 <Checkbox label="🍕" id="first" />
                 <Checkbox label="🍔" id="second" />
@@ -172,8 +171,8 @@
                     <Checkbox label="Organised" id="ques2-3" :spaced="true" />
                     <Checkbox label="Awesome!" id="ques2-4" :spaced="true" />
                 </div>
-            </Card>
-            <Card title="Sample: Left Checkbox">
+            </Card> -->
+            <!-- <Card title="Sample: Left Checkbox">
                 <p class="text-dark-500 font-bold">Your favourite food:</p>
                 <Checkbox id="ques3-1" label="🍕" checkbox-position="right" />
                 <Checkbox id="ques3-2" label="🍔" checkbox-position="right" />
@@ -227,6 +226,58 @@
                         :spaced="true"
                     />
                 </div>
+            </Card> -->
+            <Card title="Dropdown sample">
+                <Dropdown
+                    id="dropdown-1"
+                    label="Choose one"
+                    :options="sampleOptions1"
+                />
+                <Dropdown
+                    id="dropdown-1"
+                    label="Choose one"
+                    :options="sampleOptions2"
+                />
+                <Dropdown
+                    id="dropdown-1"
+                    label="Choose one"
+                    :options="sampleOptions2"
+                />
+                <Dropdown
+                    id="dropdown-1"
+                    label="Choose one"
+                    :options="sampleOptions2"
+                />
+                <Dropdown
+                    id="dropdown-1"
+                    label="Choose one"
+                    :options="sampleOptions2"
+                />
+                <Dropdown
+                    id="dropdown-1"
+                    label="Choose one"
+                    :options="sampleOptions2"
+                />
+                <Dropdown
+                    id="dropdown-1"
+                    label="Choose one"
+                    :options="sampleOptions2"
+                />
+                <Dropdown
+                    id="dropdown-1"
+                    label="Choose one"
+                    :options="sampleOptions2"
+                />
+                <Dropdown
+                    id="dropdown-1"
+                    label="Choose one"
+                    :options="sampleOptions2"
+                />
+                <Dropdown
+                    id="dropdown-1"
+                    label="Choose one"
+                    :options="sampleOptions2"
+                />
             </Card>
         </section>
     </Layout>
@@ -235,19 +286,76 @@
 <script setup lang="ts">
 import Layout from "@/components/layouts/Dashboard.vue";
 import Card from "@/components/containers/Card.vue";
-import Checkbox from "@/components/forms/Checkbox.vue";
+import Dropdown from "@/components/forms/Dropdown.vue";
 import CodeHighlight from "vue-code-highlight/src/CodeHighlight.vue";
 import "vue-code-highlight/themes/duotone-sea.css";
 import "vue-code-highlight/themes/window.css";
 // import { faFlask } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-import { importCheckbox } from "@/sample/codeSample";
+import { importDropdown } from "@/sample/codeSample";
 
-const codeSample = {
-    emitUpdateParams: `payload: {
-    name: string,
-    value: string | number
-}`,
-};
+const sampleOptions1 = [
+    {
+        value: "option-1",
+        label: "Option 1",
+    },
+    {
+        value: "option-2",
+        label: "Option 2",
+    },
+    {
+        value: "option-3",
+        label: "Option 3",
+    },
+    {
+        value: "option-4",
+        label: "Option 4",
+    },
+    {
+        value: "option-5",
+        label: "Option 5",
+    },
+];
+
+const sampleOptions2 = [
+    {
+        value: "option-1",
+        label: "Option 1",
+    },
+    {
+        value: "option-2",
+        label: "Option 2",
+        disabled: true,
+    },
+    {
+        value: "option-3",
+        label: "Option 3",
+    },
+    {
+        value: "option-4",
+        label: "Option 4",
+    },
+    {
+        value: "option-5",
+        label: "Option 5",
+    },
+];
+
+// const handleUpdate = ({
+//     name,
+//     value,
+// }: {
+//     name: string;
+//     value: string | number;
+// }) => {
+//     // console.log({ name, value });
+// };
+
+// const codeSample = {
+//     emitUpdateParams: `payload: {
+//     name: string,
+//     value: string | number
+// }`,
+// };
 </script>

@@ -20,7 +20,7 @@
                 </p>
                 <div class="max-w-3xl">
                     <code-highlight languange="typescript">
-                        {{ codeSample.importCard }}
+                        {{ importCard }}
                     </code-highlight>
                 </div>
             </Card>
@@ -440,15 +440,5 @@ import CodeHighlight from "vue-code-highlight/src/CodeHighlight.vue";
 import "vue-code-highlight/themes/duotone-sea.css";
 import "vue-code-highlight/themes/window.css";
 
-const codeSample = {
-    importCard: `<template>
-    <Card title="Introduction">
-        <!-- ...Your card content -->
-    </Card>
-</template>
-
-<script setup lang="ts">
-import Card from "@/components/containers/Card.vue";
-<script>`,
-};
+import { importCard } from "@/sample/codeSample";
 </script>
