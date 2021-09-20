@@ -14,7 +14,7 @@
                                 v-model="searchForm.from"
                                 :config="searchForm.config"
                                 class=""
-                                placeholder="Select date"
+                                placeholder="Select datetime"
                                 name="date"
                             />
                         </div>
@@ -26,51 +26,65 @@
                                 v-model="searchForm.to"
                                 :config="searchForm.config"
                                 class=""
-                                placeholder="Select date"
+                                placeholder="Select datetime"
                                 name="date"
                             />
                         </div>
 
-                        <Input
-                            id="exchangeInput"
-                            label-position="side"
+                        <Dropdown
+                            class=""
+                            labelPosition="side"
                             label="Exchange ID"
+                            :options="optionItems.exchangeId"
                         />
-                        <div class="grid md:grid-cols-2 lg:grid-cols-4">
-                            <label class="max-w-input-label md:row-span-3"
+
+                        <div class="grid sm:grid-cols-1 lg:grid-cols-4 mr-4">
+                            <label class="max-w-input-label col-span-1"
                                 >Transaction Status</label
                             >
-                            <Checkbox
-                                id="cbStatus"
-                                label="Successful"
-                                checkbox-position="right"
-                                :spaced="false"
-                                @update="handleUpdate"
-                                class="flex-1"
-                            />
-                            <Checkbox
-                                id="cbStatus"
-                                label="Pending"
-                                checkbox-position="right"
-                                :spaced="false"
-                                @update="handleUpdate"
-                                class="flex-1"
-                            />
-                            <Checkbox
-                                id="cbStatus"
-                                label="Unsuccessful"
-                                checkbox-position="right"
-                                :spaced="false"
-                                @update="handleUpdate"
-                                class="flex-1"
-                            />
+                            <div class="sm:col-span-1 lg:col-span-3">
+                                <div
+                                    class="
+                                        grid
+                                        sm:grid-cols-1
+                                        lg:grid-cols-3
+                                        gap-2
+                                    "
+                                >
+                                    <Checkbox
+                                        id="cbStatus"
+                                        label="Successful"
+                                        checkbox-position="right"
+                                        :spaced="true"
+                                        @update="handleUpdate"
+                                        class="flex-1"
+                                    />
+                                    <Checkbox
+                                        id="cbStatus"
+                                        label="Pending"
+                                        checkbox-position="right"
+                                        :spaced="true"
+                                        @update="handleUpdate"
+                                        class="flex-1"
+                                    />
+                                    <Checkbox
+                                        id="cbStatus"
+                                        label="Unsuccessful"
+                                        checkbox-position="right"
+                                        :spaced="true"
+                                        @update="handleUpdate"
+                                        class="flex-1"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
-                        <Input
-                            id="statusInput"
-                            label-position="side"
-                            label="Seller ID (Dropdown)"
+                        <Dropdown
+                            class=""
+                            labelPosition="side"
+                            label="Seller ID"
+                            :options="optionItems.sellerId"
                         /><Input
                             id="statusInput"
                             label-position="side"
@@ -108,41 +122,211 @@
                 @sort="handleSort"
                 @entry-resize="handleResize"
             >
-                <template #row_id="{ entry }">
-                    {{ entry.id }}
+                <template #row_triggerDateTime="{ entry }">
+                    <span class="whitespace-nowrap">{{
+                        entry.triggerDateTime
+                    }}</span>
                 </template>
-                <template #row_name="{ entry }">
-                    {{ entry.name }}
+                <template #row_fpxTransactionId="{ entry }">
+                    {{ entry.fpxTransactionId }}
                 </template>
-                <template #row_age="{ entry }">
-                    {{ entry.age }}
+                <template #row_merchantTransactionId="{ entry }">
+                    {{ entry.merchantTransactionId }}
                 </template>
-                <template #row_action="">
-                    <button class="btn-primary btn-sm">Submit</button>
+                <template #row_amount="{ entry }"> {{ entry.amount }} </template
+                ><template #row_reportStatus="{ entry }">
+                    <span class="whitespace-nowrap"
+                        ><FontAwesomeIcon
+                            :icon="faCircle"
+                            flip="horizontal"
+                            :class="{
+                                'icon-green':
+                                    entry.reportStatus === 'Successful',
+                                'icon-red':
+                                    entry.reportStatus === 'Unsuccessful',
+                            }"
+                        />
+                        {{ entry.reportStatus }}
+                    </span> </template
+                ><template #row_reportReason="{ entry }">
+                    <span class="whitespace-nowrap">{{
+                        entry.reportReason
+                    }}</span> </template
+                ><template #row_statusDatetime="{ entry }">
+                    <span class="whitespace-nowrap">{{
+                        entry.statusDatetime
+                    }}</span> </template
+                ><template #row_buyerBank="{ entry }">
+                    <span class="whitespace-nowrap">{{
+                        entry.buyerBank
+                    }}</span></template
+                ><template #row_buyerName="{ entry }">
+                    <span class="whitespace-nowrap">{{
+                        entry.buyerName
+                    }}</span></template
+                ><template #row_buyerEmail="{ entry }">
+                    {{ entry.buyerEmail }} </template
+                ><template #row_exchangeId="{ entry }">
+                    <span class="whitespace-nowrap">{{
+                        entry.exchangeId
+                    }}</span></template
+                ><template #row_sellerId="{ entry }">
+                    <span class="whitespace-nowrap">{{
+                        entry.sellerId
+                    }}</span></template
+                ><template #row_configuration="{ entry }">
+                    <span class="whitespace-nowrap">{{
+                        entry.configuration
+                    }}</span>
+                </template>
+                <template #row_action="{ entry }">
+                    <button
+                        type="button"
+                        class="btn-light btn-sm"
+                        @click="viewDetail(entry)"
+                    >
+                        View
+                    </button>
                 </template>
             </TableData>
         </Card>
+
+        <!-- detail modal -->
+        <Modal v-model="detail.modal" size="lg" :hideFooter="true"
+            ><template v-slot:content>
+                <!-- Detail -->
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="col-span-1">
+                        <div class="div-group">
+                            <label>FPX Transaction ID :</label>
+                            <span>{{ detail.value.fpxTransactionId }}</span>
+                        </div>
+                        <div class="div-group">
+                            <label>Merchant Transaction ID :</label>
+                            <span>{{
+                                detail.value.merchantTransactionId
+                            }}</span>
+                        </div>
+                    </div>
+                    <div class="col-span-1">
+                        <div class="div-group">
+                            <label>Status :</label>
+                            <span
+                                :class="{
+                                    'text-red':
+                                        detail.value.reportStatus ===
+                                        'Unsuccessful',
+                                    'text-green':
+                                        detail.value.reportStatus ===
+                                        'Successful',
+                                }"
+                                >{{ detail.value.reportStatus }}</span
+                            >
+                        </div>
+                        <div class="div-group">
+                            <label>Reason :</label>
+                            <span>{{ detail.value.reportReason }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank Detail -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-1">
+                        <div class="div-group">
+                            <label>Buyer Bank :</label>
+                            <span>{{ detail.value.buyerBank }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="col-span-1">
+                        <div class="div-group">
+                            <label>Exchange ID :</label>
+                            <span>{{ detail.value.exchangeId }}</span>
+                        </div>
+                        <div class="div-group">
+                            <label>Seller ID :</label>
+                            <span>{{ detail.value.sellerId }}</span>
+                        </div>
+                        <div class="div-group">
+                            <label>Trigger Date :</label>
+                            <span>{{ detail.value.triggerDateTime }}</span>
+                        </div>
+                    </div>
+                    <div class="col-span-1">
+                        <div class="div-group">
+                            <label>Buyer Name :</label>
+                            <span>{{ detail.value.buyerName }}</span>
+                        </div>
+                        <div class="div-group">
+                            <label>Amount (RM) :</label>
+                            <span>{{ detail.value.amount }}</span>
+                        </div>
+                        <div class="div-group">
+                            <label>Status Date :</label>
+                            <span>{{ detail.value.statusDatetime }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logs Detail -->
+                <div class="grid grid-cols-12 gap-4">
+                    <label class="col-span-2 text-right">Logs :</label>
+                    <div class="flex flex-col col-span-10">
+                        <span
+                            >16/03/2021 10:23:41 - Transaction request
+                            received.</span
+                        >
+                        <span
+                            >16/03/2021 10:23:46 - Transaction request sent to
+                            FPX</span
+                        >
+                        <span
+                            >16/03/2021 10:35:02 - Processing Transaction</span
+                        >
+                        <span>16/03/2021 10:35:30 - Transaction failed</span>
+                        <span>16/03/2021 10:35:52 - Callback sent</span>
+                    </div>
+                </div>
+            </template></Modal
+        >
     </Layout>
 </template>
 
 <script setup lang="ts">
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // Importing components
 import Checkbox from "@/components/forms/Checkbox.vue";
 import Layout from "@/components/layouts/Dashboard.vue";
 import Card from "@/components/containers/Card.vue";
 import TableData from "@/components/containers/TableData.vue";
 import Input from "@/components/forms/Input.vue";
+import Dropdown from "@/components/forms/Dropdown.vue";
+import Modal from "@/components/containers/modal.vue";
 import { reactive, watchEffect } from "vue";
 // import tableConfig from "@/sample/tableConfig.json";
-import { getData, GetDataProps } from "@/sample/dataSample";
+import { getData, GetDataProps } from "@/sample/reportSample";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+
 const { entries, totalRows } = getData({});
 
 const dataState = reactive({
     entries,
     totalRows,
 });
+
+const detail = reactive({
+    modal: false,
+    value: {},
+});
+
+const viewDetail = (report) => {
+    detail.value = report;
+    detail.modal = true;
+};
 
 const tableConfig = reactive({
     columns: [
@@ -179,10 +363,6 @@ const tableConfig = reactive({
             label: "Status Date Time",
         },
         {
-            name: "buyer Bank",
-            label: "Buyer Bank",
-        },
-        {
             name: "buyerBank",
             label: "Buyer Bank",
         },
@@ -192,10 +372,14 @@ const tableConfig = reactive({
         },
         {
             name: "buyerEmail",
+            label: "Buyer Email",
+        },
+        {
+            name: "exchangeId",
             label: "Exchange ID",
         },
         {
-            name: "selerId",
+            name: "sellerId",
             label: "Seller ID",
         },
         {
@@ -233,6 +417,29 @@ const searchForm = reactive({
         dateFormat: "Y-m-d H:i",
         enableTime: true,
     },
+});
+
+const optionItems = reactive({
+    exchangeId: [
+        {
+            value: "EX00001",
+            label: "EX0001 - TOYYIBPAY SDN BHD",
+        },
+        {
+            value: "EX00002",
+            label: "EX00002 - ANSI SYSTEMS SDN BHD",
+        },
+    ],
+    sellerId: [
+        {
+            value: "SE00001",
+            label: "SE00001 - TOYYIBPAY SDN BHD",
+        },
+        {
+            value: "SE00002",
+            label: "SE00002 - ANSI SYSTEMS SDN BHD",
+        },
+    ],
 });
 
 const searchReport = () => {
@@ -292,6 +499,36 @@ const handleResize = (size: number) => {
     & >>> input {
         @apply border rounded-md border-light-500 py-2 px-4 flex-1 w-full min-w-input outline-none transition-all duration-300 ease-in-out;
         @apply hover:border-light-600 focus:border-primary-300 focus:shadow-focus;
+    }
+}
+
+/* icon */
+.icon-green {
+    color: #43d39e;
+}
+
+.icon-red {
+    color: #ff5c75;
+}
+
+/* text */
+.text-red {
+    color: #ff5c75;
+}
+
+.text-green {
+    color: #43d39e;
+}
+
+/* Group Div */
+.div-group {
+    @apply grid grid-cols-3 gap-4;
+
+    label {
+        @apply text-right;
+    }
+    span {
+        @apply col-span-2;
     }
 }
 </style>

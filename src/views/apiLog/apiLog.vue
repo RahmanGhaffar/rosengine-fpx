@@ -7,65 +7,89 @@
             <form @submit.prevent="searchReport" class="">
                 <div class="grid lg:grid-cols-2 md:grid-cols-1 gap-4">
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
-                        <!-- Date Input -->
-                        <Input
-                            id="fromInput"
-                            label-position="side"
-                            label="From"
-                        />
-                        <Input id="toInput" label-position="side" label="To" />
-                        <div class="grid lg:grid-cols-8 md:grid-cols-2 gap-2">
-                            <label
-                                class="
-                                    lg:col-span-2
-                                    md:row-span-4 md:col-span-1
-                                    sm:col-span-1
-                                "
-                                >Type</label
-                            >
-                            <Checkbox
-                                id="cbType"
-                                label="inbound from system"
-                                checkbox-position="right"
-                                :spaced="false"
-                                @update="handleUpdate"
-                                class="lg:col-span-3 sm:col-span-1"
-                            />
-                            <Checkbox
-                                id="cbType"
-                                label="outbound to system"
-                                checkbox-position="right"
-                                :spaced="false"
-                                @update="handleUpdate"
-                                class="lg:col-span-3 sm:col-span-1"
-                            />
-                            <Checkbox
-                                id="cbType"
-                                label="inbound from provider"
-                                checkbox-position="right"
-                                :spaced="false"
-                                @update="handleUpdate"
-                                class="lg:col-span-3 sm:col-span-1"
-                            />
-                            <Checkbox
-                                id="cbType"
-                                label="outbound to provider"
-                                checkbox-position="right"
-                                :spaced="false"
-                                @update="handleUpdate"
-                                class="lg:col-span-3 sm:col-span-1"
+                        <div class="flex items-baseline input-group">
+                            <label class="flex-1 max-w-input-label">From</label>
+                            <flat-pickr
+                                v-model="searchForm.from"
+                                :config="searchForm.config"
+                                class=""
+                                placeholder="Select datetime"
+                                name="date"
                             />
                         </div>
+
+                        <div class="flex items-baseline input-group">
+                            <label class="flex-1 max-w-input-label">To</label>
+                            <flat-pickr
+                                v-model="searchForm.to"
+                                :config="searchForm.config"
+                                class=""
+                                placeholder="Select datetime"
+                                name="date"
+                            />
+                        </div>
+
+                        <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-2">
+                            <label class="max-w-input-label col-span-1"
+                                >Type</label
+                            >
+                            <div class="col-span-3 mr-4">
+                                <div
+                                    class="
+                                        grid
+                                        md:grid-cols-2
+                                        sm:grid-cols-1
+                                        gap-2
+                                    "
+                                >
+                                    <Checkbox
+                                        id="cbType"
+                                        label="inbound from system"
+                                        checkbox-position="right"
+                                        :spaced="true"
+                                        @update="handleUpdate"
+                                        class=""
+                                    />
+                                    <Checkbox
+                                        id="cbType"
+                                        label="outbound to system"
+                                        checkbox-position="right"
+                                        :spaced="true"
+                                        @update="handleUpdate"
+                                        class=""
+                                    />
+                                    <Checkbox
+                                        id="cbType"
+                                        label="inbound from provider"
+                                        checkbox-position="right"
+                                        :spaced="true"
+                                        @update="handleUpdate"
+                                        class=""
+                                    />
+                                    <Checkbox
+                                        id="cbType"
+                                        label="outbound to provider"
+                                        checkbox-position="right"
+                                        :spaced="true"
+                                        @update="handleUpdate"
+                                        class=""
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
-                        <Input
-                            id="statusInput"
-                            label-position="side"
-                            label="Trigger System (Dropdown)"
-                        /><Input
-                            id="statusInput"
-                            label-position="side"
-                            label="Send Address (Dropdown)"
+                        <Dropdown
+                            label="Trigger System"
+                            labelPosition="side"
+                            :options="dropdown.triggerOptions"
+                        />
+
+                        <Dropdown
+                            label="Send Address"
+                            labelPosition="side"
+                            :options="dropdown.sendAddressOptions"
                         />
                     </div>
                 </div>
@@ -95,14 +119,20 @@
                 @sort="handleSort"
                 @entry-resize="handleResize"
             >
-                <template #row_id="{ entry }">
-                    {{ entry.id }}
+                <template #row_logConfiguration="{ entry }">
+                    {{ entry.logConfiguration }}
                 </template>
-                <template #row_name="{ entry }">
-                    {{ entry.name }}
+                <template #row_logType="{ entry }">
+                    {{ entry.logType }}
                 </template>
-                <template #row_age="{ entry }">
-                    {{ entry.age }}
+                <template #row_exchangeId="{ entry }">
+                    {{ entry.exchangeId }}
+                </template>
+                <template #row_sellerId="{ entry }">
+                    {{ entry.sellerId }}
+                </template>
+                <template #row_logDate="{ entry }">
+                    {{ entry.logDate }}
                 </template>
                 <template #row_action="">
                     <div class="flex gap-3 justify-center">
@@ -121,13 +151,55 @@ import Checkbox from "@/components/forms/Checkbox.vue";
 import Layout from "@/components/layouts/Dashboard.vue";
 import Card from "@/components/containers/Card.vue";
 import TableData from "@/components/containers/TableData.vue";
-import Input from "@/components/forms/Input.vue";
 import { reactive, watchEffect } from "vue";
 // import tableConfig from "@/sample/tableConfig.json";
-import { getData, GetDataProps } from "@/sample/dataSample";
+import { getData, GetDataProps } from "@/sample/apiLogSample";
+import Dropdown from "@/components/forms/Dropdown.vue";
+import flatPickr from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
 
 const { entries, totalRows } = getData({});
 
+// serach Form Function
+const searchForm = reactive({
+    isOpen: false,
+    from: "",
+    to: "",
+    config: {
+        dateFormat: "Y-m-d H:i",
+        enableTime: true,
+    },
+});
+const dropdown = {
+    triggerOptions: [
+        {
+            label: "Ansi Systems",
+            value: "Configuration 1",
+        },
+        {
+            label: "toyyibPay",
+            value: "Configuration 2",
+        },
+        {
+            label: "Artificial intelligence",
+            value: "Configuration 3",
+        },
+    ],
+    sendAddressOptions: [
+        {
+            label: "send1@address.com",
+            value: "Configuration 1",
+        },
+        {
+            label: "send2@address.com",
+            value: "Configuration 2",
+        },
+        {
+            label: "send3@address.com",
+            value: "Configuration 3",
+        },
+    ],
+};
 const dataState = reactive({
     entries,
     totalRows,
@@ -156,10 +228,6 @@ const tableConfig = reactive({
             label: "Log Date",
         },
         {
-            name: "reportReason",
-            label: "Reason",
-        },
-        {
             name: "action",
             label: "action",
             titleAlign: "center",
@@ -180,11 +248,6 @@ const tableConfig = reactive({
 
 const pagination = reactive<Table.Pagination>({
     ...(tableConfig.pagination as Table.Pagination),
-});
-
-// serach Form Function
-const searchForm = reactive({
-    isOpen: false,
 });
 
 const searchReport = () => {
@@ -236,3 +299,14 @@ const handleResize = (size: number) => {
     pagination.entrySize = size;
 };
 </script>
+
+<style scoped lang="postcss">
+.input-group {
+    @apply mr-4;
+
+    & >>> input {
+        @apply border rounded-md border-light-500 py-2 px-4 flex-1 w-full min-w-input outline-none transition-all duration-300 ease-in-out;
+        @apply hover:border-light-600 focus:border-primary-300 focus:shadow-focus;
+    }
+}
+</style>

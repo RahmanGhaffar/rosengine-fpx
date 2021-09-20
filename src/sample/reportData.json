@@ -1,0 +1,32 @@
+[
+    {
+        "triggerDateTime": "15/03/2021 15:05:01",
+        "fpxTransactionId": "2021031523654893621456",
+        "merchantTransactionId": "2021031365653265463222",
+        "amount": "1,500,300,288.00",
+        "reportStatus": "Successful",
+        "reportReason": "Accepted",
+        "statusDatetime": "15/03/2021 15:15:11",
+        "buyerBank": "Maybank",
+        "buyerName": "John Doe",
+        "buyerEmail": "JohnDoe@email.com",
+        "exchangeId": "EX0001 - TOYYIBPAY SDN BHD",
+        "sellerId": "SE0001 - TOYYIBPAY SDN BHD",
+        "configuration": "toyyibPay"
+    },
+    {
+        "triggerDateTime": "15/03/2021 15:05:01",
+        "fpxTransactionId": "2021031523654893621456",
+        "merchantTransactionId": "2021031365653265463222",
+        "amount": "1,500,300,288.00",
+        "reportStatus": "Unsuccessful",
+        "reportReason": "Buyer click on cancel at bank system login page.",
+        "statusDatetime": "15/03/2021 15:15:11",
+        "buyerBank": "Maybank",
+        "buyerName": "John Doe",
+        "buyerEmail": "JohnDoe@email.com",
+        "exchangeId": "EX0001 - TOYYIBPAY SDN BHD",
+        "sellerId": "SE0001 - TOYYIBPAY SDN BHD",
+        "configuration": "toyyibPay"
+    }
+]

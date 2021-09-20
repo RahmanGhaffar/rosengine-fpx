@@ -239,6 +239,7 @@ import {
     faInfo,
     faWrench,
     faFileAlt,
+    faTools,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useRouter } from "vue-router";
@@ -268,6 +269,7 @@ const icon = computed(() => ({
     faInfo,
     faWrench,
     faFileAlt,
+    faTools,
 }));
 
 const currentRoute = router.currentRoute.value.fullPath;

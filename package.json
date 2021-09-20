@@ -31,6 +31,7 @@
     "vue-code-highlight": "^0.7.8",
     "vue-flatpickr-component": "^9.0.5",
     "vue-router": "^4.0.3",
+    "vue-verification-code-input": "^1.0.0",
     "vue3-markdown-it": "^1.0.9",
     "vuex": "^4.0.0"
   },
@@ -45,7 +46,7 @@
     "@vue/cli-plugin-pwa": "~5.0.0-beta.3",
     "@vue/cli-plugin-router": "~5.0.0-beta.3",
     "@vue/cli-plugin-typescript": "~5.0.0-beta.3",
-    "@vue/cli-plugin-unit-mocha": "~5.0.0-beta.3",
+    "@vue/cli-plugin-unit-mocha": "^3.12.1",
     "@vue/cli-plugin-vuex": "~5.0.0-beta.3",
     "@vue/cli-service": "~5.0.0-beta.3",
     "@vue/compiler-sfc": "^3.2.7",

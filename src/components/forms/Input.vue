@@ -60,6 +60,7 @@
                 }"
             >
                 <button
+                    type="button"
                     class="h-full px-4 py-2 w-14"
                     v-if="props.type === 'password'"
                     @click="

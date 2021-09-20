@@ -1,0 +1,23 @@
+[
+    {
+        "logConfiguration": "toyyibPay",
+        "logType": "Inbound from system",
+        "exchangeId": "EX0001 - TOYYIBPAY SDN BHD",
+        "sellerId": "SE0001 - TOYYIBPAY SDN BHD",
+        "logDate": "15/03/2021 15:05:01"
+    },
+    {
+        "logConfiguration": "ansi systems",
+        "logType": "Inbound from system",
+        "exchangeId": "EX0002 - ANSI SYSTEMS SDN BHD",
+        "sellerId": "SE0002 - ANSI SYSTEMS SDN BHD",
+        "logDate": "15/03/2021 15:05:01"
+    },
+    {
+        "logConfiguration": "artificial intelligence",
+        "logType": "Outbound from system",
+        "exchangeId": "EX0001 - TOYYIBPAY SDN BHD",
+        "sellerId": "SE0003 - ARTIFICIAL INTELLIGENCE",
+        "logDate": "15/03/2021 15:05:01"
+    }
+]

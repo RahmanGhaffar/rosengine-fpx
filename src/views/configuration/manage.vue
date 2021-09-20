@@ -4,74 +4,114 @@
             <h5>Manage Conifguration</h5>
         </section>
         <Card>
-            <div class="flex items-baseline">
-                <label class="flex-1 max-w-input-label mt-2">
-                    Configuration :
-                </label>
-                <input value="Please Change to Dropdown" />
-            </div>
+            <Dropdown
+                id="configuration"
+                label="Configuration: "
+                labelPosition="side"
+                :options="dropdown.options"
+            />
         </Card>
-        <button class="btn-base btn-primary w-max self-end">Get Data</button>
-        <Card
-            ><form method="post" @submit.prevent="addConfig">
-                <Input
-                    v-model="config.name"
-                    label-position="side"
-                    label="Name"
-                    class="mb-1"
-                />
-                <Input
-                    v-model="config.desc"
-                    label-position="side"
-                    label="Description"
-                    class="mb-1"
-                />
-                <Input
-                    v-model="config.triggerSystem"
-                    label-position="side"
-                    label="Trigger System"
-                    class="mb-1"
-                />
-                <Input
-                    v-model="config.returnUrl"
-                    label-position="side"
-                    label="Return URL"
-                    class="mb-1"
-                    prefix="htps://contoh.com/return"
-                />
-                <Input
-                    v-model="config.callbackUrl"
-                    label-position="side"
-                    label="Callback URL"
-                    class="mb-1"
-                    prefix="htps://contoh.com/callback"
-                />
-                <Input
-                    v-model="config.exchangeId"
-                    label-position="side"
-                    label="Exchange ID (Select)"
-                    class="mb-1"
-                />
-                <Input
-                    v-model="config.sellerId"
-                    label-position="side"
-                    label="Seller ID (Select)"
-                    class="mb-1"
-                />
-                <div class="flex mb-10">
-                    <label class="flex-1 max-w-input-label mt-2">API key</label>
-                    <input type="text" id="fname" name="fname" />
-                    <button class="btn-base btn-light inline-flex w-max">
-                        Generate New
+        <button
+            @click="findConfig"
+            type="submit"
+            class="btn-base btn-primary w-max self-end"
+        >
+            Get Data
+        </button>
+        <div v-if="config.isSubmit">
+            <Card class="mb-12"
+                ><form
+                    method="post"
+                    @submit.prevent="manageConfig"
+                    class="form-control"
+                >
+                    <Input
+                        id="configName"
+                        v-model="config.name"
+                        label-position="side"
+                        label="Name"
+                    />
+                    <Input
+                        id="configDesc"
+                        v-model="config.desc"
+                        label-position="side"
+                        label="Description"
+                    />
+                    <Input
+                        id="configTrigger"
+                        v-model="config.triggerSystem"
+                        label-position="side"
+                        label="Trigger System"
+                    />
+                    <Input
+                        id="configReturn"
+                        v-model="config.returnUrl"
+                        label-position="side"
+                        label="Return URL"
+                        prefix="htps://contoh.com/"
+                    />
+                    <Input
+                        id="configCallback"
+                        v-model="config.callbackUrl"
+                        label-position="side"
+                        label="Callback URL"
+                        prefix="htps://contoh.com/"
+                    />
+                    <Dropdown
+                        class=""
+                        labelPosition="side"
+                        label="Exchange ID"
+                        :options="dropdown.exchangeId"
+                    />
+                    <Dropdown
+                        class=""
+                        labelPosition="side"
+                        label="Seller ID"
+                        :options="dropdown.sellerId"
+                    />
+                    <div class="flex mb-10 mr-4">
+                        <label class="flex-1 max-w-input-label mt-2"
+                            >API key</label
+                        >
+                        <input type="text" disabled id="fname" name="fname" />
+                        <button
+                            type="button"
+                            class="btn-base btn-light inline-flex w-max"
+                            @click="generateModal = true"
+                        >
+                            Regenerate New
+                        </button>
+                    </div>
+                    <button
+                        type="Submit"
+                        class="btn-lg btn-primary block self-end mr-4"
+                    >
+                        Submit
                     </button>
-                </div>
-                <button type="Submit" class="btn-lg btn-primary float-right">
-                    Add
-                </button>
-            </form>
-        </Card>
-        <button class="btn-base btn-dark w-max">Remove Configuration</button>
+                </form>
+            </Card>
+            <button
+                type="button"
+                @click="removeConfig = true"
+                class="btn-base btn-dark w-max"
+            >
+                Remove Configuration
+            </button>
+        </div>
     </Layout>
+    <!-- Update COnfig -->
+    <ConfirmModal v-model="config.confirmModal" v-on:success="updateConfig"
+        >You are about to make changes to the Configuration.
+    </ConfirmModal>
+    <!-- generate new APi Key -->
+    <ConfirmModal v-model="generateModal" v-on:success="updateConfig"
+        >You are about generate a new API Key for the Configuration.
+    </ConfirmModal>
+    <!-- remove configuration -->
+    <ConfirmModal v-model="removeConfig" v-on:success="updateConfig"
+        >You are about to remove the configuration from the system.
+    </ConfirmModal>
+    <SuccessModal v-model="successModal" />
 </template>
 
 <script setup lang="ts">
@@ -79,7 +119,10 @@
 import Layout from "@/components/layouts/Dashboard.vue";
 import Card from "@/components/containers/Card.vue";
 import Input from "@/components/forms/Input.vue";
-import { reactive } from "vue";
+import Dropdown from "@/components/forms/Dropdown.vue";
+import SuccessModal from "@/components/utils/modal/successModal.vue";
+import ConfirmModal from "@/components/utils/modal/confirmModal.vue";
+import { reactive, ref } from "vue";
 
 const config = reactive({
     name: "",
@@ -90,14 +133,84 @@ const config = reactive({
     exchangeId: "",
     sellerId: "",
     apiKey: "",
+    isSubmit: false,
+    confimModal: false,
 });
 
-const addConfig = () => {
-    console.log(config);
+const updateConfig = () => {
+    successModal.value = true;
+};
+
+const successModal = ref(false);
+
+const generateModal = ref(false);
+
+const removeConfig = ref(false);
+
+// Dropdown COnfiguration
+const dropdown = reactive({
+    options: [
+        {
+            label: "Configuration 1",
+            value: "Configuration 1",
+        },
+        {
+            label: "Configuration 2",
+            value: "Configuration 2",
+        },
+        {
+            label: "Configuration 3",
+            value: "Configuration 3",
+        },
+        {
+            label: "Configuration 4",
+            value: "Configuration 4",
+        },
+        {
+            label: "Configuration 5",
+            value: "Configuration 5",
+        },
+        {
+            label: "Configuration 6",
+            value: "Configuration 6",
+        },
+    ],
+    exchangeId: [
+        {
+            value: "EX00001",
+            label: "EX0001 - TOYYIBPAY SDN BHD",
+        },
+        {
+            value: "EX00002",
+            label: "EX00002 - ANSI SYSTEMS SDN BHD",
+        },
+    ],
+    sellerId: [
+        {
+            value: "SE00001",
+            label: "SE00001 - TOYYIBPAY SDN BHD",
+        },
+        {
+            value: "SE00002",
+            label: "SE00002 - ANSI SYSTEMS SDN BHD",
+        },
+    ],
+});
+
+const findConfig = () => {
+    config.isSubmit = true;
+};
+
+const manageConfig = () => {
+    config.confirmModal = true;
 };
 </script>
 
 <style lang="postcss" scoped>
+.form-control {
+    @apply flex flex-col gap-4;
+}
+
 input {
     @apply border rounded-md border-light-500 py-2 px-4 flex-1 w-full min-w-input outline-none transition-all duration-300 ease-in-out;
     @apply hover:border-light-600 focus:border-primary-300 focus:shadow-focus;

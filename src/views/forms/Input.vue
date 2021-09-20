@@ -316,9 +316,9 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { importInput } from "@/sample/codeSample";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const handleSubmit = ({ target }: { target: HTMLFormElement }) => {
-    console.log(target.elements);
-};
+// const handleSubmit = ({ target }: { target: HTMLFormElement }) => {
+//     // console.log(target.elements);
+// };
 
 const codeSample = {
     emitUpdateParams: `payload: {

@@ -19,35 +19,74 @@
                 @filter="handleFilter"
                 @sort="handleSort"
                 @entry-resize="handleResize"
-            >
-                <template #row_id="{ entry }">
-                    {{ entry.id }}
-                </template>
-                <template #row_name="{ entry }">
+                ><template #row_name="{ entry }">
                     {{ entry.name }}
                 </template>
-                <template #row_age="{ entry }">
-                    {{ entry.age }}
+                <template #row_configStatus="{ entry }">
+                    {{ entry.configStatus }}
                 </template>
-                <template #row_action="">
-                    <button class="btn-primary btn-sm">Submit</button>
+                <template #row_apiKey="{ entry }">
+                    <div class="flex">
+                        <ApiKey v-model="entry.apiKey" />
+                    </div>
+                </template>
+                <template #row_dateAdded="{ entry }">
+                    {{ entry.dateAdded }}
+                </template>
+                <template #row_action="{ entry }">
+                    <button
+                        type="button"
+                        @click="showDetail(entry)"
+                        class="btn-primary btn-sm"
+                    >
+                        Details
+                    </button>
                 </template>
             </TableData>
         </Card>
     </Layout>
+
+    <!-- Modal -->
+    <Modal
+        v-model="detail.modal"
+        size="md"
+        title="Configuration details"
+        :hideFooter="true"
+    >
+        <template v-slot:content
+            ><div class="modal-control">
+                <label>Name :</label> <span>{{ detail.value.name }}</span>
+                <label>Description :</label>
+                <span>Description for configuration</span>
+                <label>Status :</label>
+                <span>{{ detail.value.configStatus }}</span>
+                <label>API Key :</label>
+                <ApiKey v-model="detail.value.apiKey" />
+                <label>Date Added :</label>
+                <span>{{ detail.value.dateAdded }}</span>
+                <router-link
+                    to="/config/manage"
+                    class="row-end-7 col-end-4 place-self-end"
+                    ><button class="btn-base btn-dark mt-4">
+                        Manage
+                    </button></router-link
+                >
+            </div>
+        </template>
+    </Modal>
 </template>
 
 <script setup lang="ts">
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
 // Importing components
 import Layout from "@/components/layouts/Dashboard.vue";
 import Card from "@/components/containers/Card.vue";
+import ApiKey from "@/components/utils/apiKey.vue";
 import TableData from "@/components/containers/TableData.vue";
+import Modal from "@/components/containers/modal.vue";
 import { reactive, watchEffect, computed } from "vue";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 // import tableConfig from "@/sample/tableConfig.json";
-import { getData, GetDataProps } from "@/sample/dataSample";
+import { getData, GetDataProps } from "@/sample/configSample";
 
 const { entries, totalRows } = getData({});
 
@@ -60,6 +99,17 @@ const dataState = reactive({
     entries,
     totalRows,
 });
+
+const detail = reactive({
+    modal: false,
+    value: {},
+});
+
+const showDetail = (data) => {
+    console.log(data);
+    detail.value = data;
+    detail.modal = true;
+};
 
 const tableConfig = reactive({
     columns: [
@@ -146,3 +196,15 @@ const handleResize = (size: number) => {
     pagination.entrySize = size;
 };
 </script>
+
+<style lang="postcss" scoped>
+.modal-control {
+    @apply grid grid-cols-3 items-center;
+    label {
+        @apply col-span-1 text-right mr-4;
+    }
+    span {
+        @apply col-span-2;
+    }
+}
+</style>

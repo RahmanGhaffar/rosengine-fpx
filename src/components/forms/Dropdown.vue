@@ -6,7 +6,7 @@
     >
         <p class="label">{{ dropdownProps.label }}</p>
         <div class="wrapper">
-            <button class="container" @click="handleClick">
+            <button class="container" type="button" @click="handleClick">
                 <input
                     type="hidden"
                     :name="dropdownProps.id"
@@ -37,6 +37,7 @@
                 ]"
             >
                 <button
+                    type="button"
                     v-show="dropdownState.openDropdown"
                     class="options_item"
                     v-for="option in dropdownProps.options"
@@ -165,10 +166,11 @@ const handleSelect = (e: any) => {
     }
 
     .label {
+        @apply flex-1 max-w-input-label py-2;
     }
 
     .wrapper {
-        @apply relative;
+        @apply relative flex-1 mr-4;
 
         .container {
             @apply flex flex-row flex-wrap items-center gap-4 px-4 py-2 border border-light-600 rounded relative;

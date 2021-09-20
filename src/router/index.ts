@@ -2,33 +2,33 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 // import Home from "../views/Home.vue";
 import Page404 from "../views/404.vue";
 
-// const routes: Array<RouteRecordRaw> = [
-//     // {
-//     //     path: "/",
-//     //     name: "Home",
-//     //     component: Home,
-//     // },
-//     {
-//         path: "/",
-//         name: "Transaction Report",
-//         component: () => import("../views/transactionReport.vue"),
-//     },
-//     // {
-//     //     path: "/test",
-//     //     name: "Transaction Report",
-//     //     component: () => import("../views/testing.vue"),
-//     // },
-// ];
-
 const routes: Array<RouteRecordRaw> = [
     // Transaction Report
     {
         path: "/",
+        name: "Main Page",
+        component: () => import("../views/mainPage.vue"),
+    },
+
+    // Account Page
+    {
+        path: "/login",
+        name: "Login",
+        component: () => import("../views/account/login.vue"),
+    },
+    {
+        path: "/set-pin",
+        name: "Set Pin",
+        component: () => import("../views/account/setPin.vue"),
+    },
+
+    // Transaction Report
+    {
+        path: "/transaction-report",
         name: "Transaction Report",
         component: () =>
             import("../views/transactionReport/transactionReport.vue"),
     },
-
     // Configuration
     {
         path: "/config/list",
