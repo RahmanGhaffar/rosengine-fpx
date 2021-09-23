@@ -4,7 +4,7 @@
             <h5>API Log</h5>
         </section>
         <Card>
-            <form @submit.prevent="searchReport" class="">
+            <form @submit.prevent="searchReport" class>
                 <div class="grid lg:grid-cols-2 md:grid-cols-1 gap-4">
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
                         <div class="flex items-baseline input-group">
@@ -12,7 +12,7 @@
                             <flat-pickr
                                 v-model="searchForm.from"
                                 :config="searchForm.config"
-                                class=""
+                                class
                                 placeholder="Select datetime"
                                 name="date"
                             />
@@ -23,7 +23,7 @@
                             <flat-pickr
                                 v-model="searchForm.to"
                                 :config="searchForm.config"
-                                class=""
+                                class
                                 placeholder="Select datetime"
                                 name="date"
                             />
@@ -47,32 +47,28 @@
                                         label="inbound from system"
                                         checkbox-position="right"
                                         :spaced="true"
-                                        @update="handleUpdate"
-                                        class=""
+                                        class
                                     />
                                     <Checkbox
                                         id="cbType"
                                         label="outbound to system"
                                         checkbox-position="right"
                                         :spaced="true"
-                                        @update="handleUpdate"
-                                        class=""
+                                        class
                                     />
                                     <Checkbox
                                         id="cbType"
                                         label="inbound from provider"
                                         checkbox-position="right"
                                         :spaced="true"
-                                        @update="handleUpdate"
-                                        class=""
+                                        class
                                     />
                                     <Checkbox
                                         id="cbType"
                                         label="outbound to provider"
                                         checkbox-position="right"
                                         :spaced="true"
-                                        @update="handleUpdate"
-                                        class=""
+                                        class
                                     />
                                 </div>
                             </div>
@@ -81,12 +77,14 @@
 
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
                         <Dropdown
+                            id="triggerSystem"
                             label="Trigger System"
                             labelPosition="side"
                             :options="dropdown.triggerOptions"
                         />
 
                         <Dropdown
+                            id="sendAddress"
                             label="Send Address"
                             labelPosition="side"
                             :options="dropdown.sendAddressOptions"
@@ -95,11 +93,7 @@
                 </div>
 
                 <div class="flex justify-between mt-3">
-                    <button
-                        type="reset"
-                        class="btn-light btn-base"
-                        @click="reset"
-                    >
+                    <button type="reset" class="btn-light btn-base">
                         Reset
                     </button>
                     <button type="submit" class="btn-primary btn-base">
@@ -134,7 +128,7 @@
                 <template #row_logDate="{ entry }">
                     {{ entry.logDate }}
                 </template>
-                <template #row_action="">
+                <template #row_action>
                     <div class="flex gap-3 justify-center">
                         <button class="btn-ligt btn-sm">View</button>
                         <button class="btn-info btn-sm">Download</button>

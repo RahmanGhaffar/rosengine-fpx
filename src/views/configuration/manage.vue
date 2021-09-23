@@ -19,12 +19,16 @@
             Get Data
         </button>
         <div v-if="config.isSubmit">
-            <Card class="mb-12"
-                ><form
+            <Card class="mb-12">
+                <form
                     method="post"
                     @submit.prevent="manageConfig"
                     class="form-control"
                 >
+                    <Toggle
+                        v-model="config.configStats"
+                        position="right"
+                    ></Toggle>
                     <Input
                         id="configName"
                         v-model="config.name"
@@ -58,13 +62,13 @@
                         prefix="htps://contoh.com/"
                     />
                     <Dropdown
-                        class=""
+                        id="exchangeId"
                         labelPosition="side"
                         label="Exchange ID"
                         :options="dropdown.exchangeId"
                     />
                     <Dropdown
-                        class=""
+                        id="sellerId"
                         labelPosition="side"
                         label="Seller ID"
                         :options="dropdown.sellerId"
@@ -83,7 +87,7 @@
                         </button>
                     </div>
                     <button
-                        type="Submit"
+                        type="submit"
                         class="btn-lg btn-primary block self-end mr-4"
                     >
                         Submit
@@ -100,18 +104,18 @@
         </div>
     </Layout>
     <!-- Update COnfig -->
-    <ConfirmModal v-model="config.confirmModal" v-on:success="updateConfig"
-        >You are about to make changes to the Configuration.
-    </ConfirmModal>
+    <ConfirmModal v-model="config.confirmModal" @validate="updateConfig"
+        >You are about to make changes to the Configuration.</ConfirmModal
+    >
     <!-- generate new APi Key -->
-    <ConfirmModal v-model="generateModal" v-on:success="updateConfig"
-        >You are about generate a new API Key for the Configuration.
+    <ConfirmModal v-model="generateModal" @validate="updateConfig">
+        You are about generate a new API Key for the Configuration.
     </ConfirmModal>
     <!-- remove configuration -->
-    <ConfirmModal v-model="removeConfig" v-on:success="updateConfig"
-        >You are about to remove the configuration from the system.
+    <ConfirmModal v-model="removeConfig" @validate="updateConfig">
+        You are about to remove the configuration from the system.
     </ConfirmModal>
-    <SuccessModal v-model="successModal" />
+    <SuccessModal v-model="successModal">Testing Success Modal</SuccessModal>
 </template>
 
 <script setup lang="ts">
@@ -122,9 +126,11 @@ import Input from "@/components/forms/Input.vue";
 import Dropdown from "@/components/forms/Dropdown.vue";
 import SuccessModal from "@/components/utils/modal/successModal.vue";
 import ConfirmModal from "@/components/utils/modal/confirmModal.vue";
+import Toggle from "@/components/forms/toggle.vue";
 import { reactive, ref } from "vue";
 
 const config = reactive({
+    configStats: false,
     name: "",
     desc: "",
     triggerSystem: "",
@@ -134,7 +140,7 @@ const config = reactive({
     sellerId: "",
     apiKey: "",
     isSubmit: false,
-    confimModal: false,
+    confirmModal: false,
 });
 
 const updateConfig = () => {

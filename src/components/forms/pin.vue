@@ -4,8 +4,9 @@
             v-for="index in props.length"
             :id="'pin' + index"
             :key="index"
+            type="password"
             maxlength="1"
-            @keyup="test"
+            @keyup="test($event)"
             class="custom-border w-8 text-center"
         />
         <!-- <input
@@ -16,7 +17,7 @@
             maxlength="1"
             @input="updateValue"
             class="custom-border w-8 text-center"
-        /> -->
+        />-->
     </div>
 </template>
 
@@ -28,23 +29,20 @@ const props = defineProps({
     length: Number,
 });
 
-const input = computed(() => {
-    return props.modelValue;
-});
+const input = computed(() => props.modelValue);
 
 const emit = defineEmits(["update:modelValue"]);
 
-const test = async (event) => {
+const test = (event: any) => {
     const numberOnly = /^[0-9]*$/;
-    var id = parseInt(event.originalTarget.id.substr(3));
-    console.log("id", id);
+    var id = parseInt(event.target.id.substr(3));
 
     if (event.key === "Backspace" || event.key === "Delete") {
         var idBefore = id - 1;
         var delValue =
             input.value.substr(0, id - 1) + "-" + input.value.substr(id);
 
-        await emit("update:modelValue", delValue.substr(0, props.length));
+        emit("update:modelValue", delValue.substr(0, props.length));
 
         if (idBefore > 0) {
             document.getElementById("pin" + idBefore).focus();
@@ -53,7 +51,7 @@ const test = async (event) => {
         var newValue =
             input.value.substr(0, id - 1) + event.key + input.value.substr(id);
 
-        await emit("update:modelValue", newValue.substr(0, props.length));
+        emit("update:modelValue", newValue.substr(0, props.length));
 
         if (id < props.length) {
             var idNext = parseInt(id) + 1;

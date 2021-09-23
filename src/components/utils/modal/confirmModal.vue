@@ -14,16 +14,18 @@
                     class="icon-warning"
                 />
                 <h2>Heads Up!</h2>
-                <span><slot></slot></span>
+                <span>
+                    <slot></slot>
+                </span>
                 <div class="text-center w-max">
                     <span>6 digits PIN</span>
                     {{ pin }}
                     <Pin v-model="pin" :length="6" />
                 </div>
-                <span
-                    >Enter your 6 digits Personal Identification Number (PIN)
-                    above to confirm the process.</span
-                >
+                <span>
+                    Enter your 6 digits Personal Identification Number (PIN)
+                    above to confirm the process.
+                </span>
             </div>
             <div class="flex justify-between">
                 <button
@@ -53,7 +55,7 @@
         >
             <div id="contentModal" class="modal-content w-1/2"></div>
         </div>
-    </div> -->
+    </div>-->
     <SuccessModal v-model="successModal"
         >Your changes has been updated</SuccessModal
     >
@@ -71,14 +73,6 @@ import Modal from "@/components/containers/modal.vue";
 
 const props = defineProps({
     modelValue: Boolean,
-    hideFooter: {
-        required: false,
-        type: Boolean,
-    },
-    hideClose: {
-        required: false,
-        type: Boolean,
-    },
 });
 
 const confirmModal = computed(() => props.modelValue);
@@ -91,19 +85,27 @@ const closeModal = () => {
     updateValue(false);
 };
 
-// var changeEmit = defineEmits(["success"]);
+// type ChangeEmit = {
+//     (e: "success", status: boolean): void;
+// };
+
+// const changeEmit = defineEmits<ChangeEmit>();
+
+const emit = defineEmits(["validate", "update:modelValue"]);
+
 const checkPin = () => {
     if (pin.value === "123456") {
-        successModal.value = true;
-        // changeEmit("success", true);
+        // successModal.value = true;
+        emit("validate", true);
     } else {
         failModal.value = true;
+        emit("validate", false);
     }
 };
 
-// emit = defineEmits(["update:modelValue"]);
-const emit = defineEmits(["update:modelValue"]);
-const updateValue = (value: string) => {
+// const emit = defineEmits(["update:modelValue"]);
+const updateValue = (value: boolean) => {
+    emit("validate", value);
     emit("update:modelValue", value);
 };
 </script>

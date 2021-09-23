@@ -2,12 +2,12 @@
     <Layout>
         <section>
             <h5>Configuration List</h5>
-            <router-link to="/config/add"
-                ><button class="btn-primary btn-sm float-right">
-                    <FontAwesomeIcon :icon="icon.faPlus" class="mr-2" />
-                    Add Configuration
-                </button></router-link
-            >
+            <router-link to="/config/add">
+                <button class="btn-primary btn-sm float-right">
+                    <FontAwesomeIcon :icon="icon.faPlus" class="mr-2" />Add
+                    Configuration
+                </button>
+            </router-link>
         </section>
         <Card>
             <TableData
@@ -19,9 +19,8 @@
                 @filter="handleFilter"
                 @sort="handleSort"
                 @entry-resize="handleResize"
-                ><template #row_name="{ entry }">
-                    {{ entry.name }}
-                </template>
+            >
+                <template #row_name="{ entry }">{{ entry.name }}</template>
                 <template #row_configStatus="{ entry }">
                     {{ entry.configStatus }}
                 </template>
@@ -53,9 +52,10 @@
         title="Configuration details"
         :hideFooter="true"
     >
-        <template v-slot:content
-            ><div class="modal-control">
-                <label>Name :</label> <span>{{ detail.value.name }}</span>
+        <template v-slot:content>
+            <div class="modal-control">
+                <label>Name :</label>
+                <span>{{ detail.value.name }}</span>
                 <label>Description :</label>
                 <span>Description for configuration</span>
                 <label>Status :</label>
@@ -67,10 +67,9 @@
                 <router-link
                     to="/config/manage"
                     class="row-end-7 col-end-4 place-self-end"
-                    ><button class="btn-base btn-dark mt-4">
-                        Manage
-                    </button></router-link
                 >
+                    <button class="btn-base btn-dark mt-4">Manage</button>
+                </router-link>
             </div>
         </template>
     </Modal>
@@ -83,12 +82,28 @@ import Card from "@/components/containers/Card.vue";
 import ApiKey from "@/components/utils/apiKey.vue";
 import TableData from "@/components/containers/TableData.vue";
 import Modal from "@/components/containers/modal.vue";
-import { reactive, watchEffect, computed } from "vue";
+import { reactive, watchEffect, computed, onMounted } from "vue";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 // import tableConfig from "@/sample/tableConfig.json";
 import { getData, GetDataProps } from "@/sample/configSample";
+// import { store } from "@/store";
+// import auth from "@/store/modules/auth";
+// import { useStore } from "vuex";
+// const mutateAuth = auth.mutations;
 
+import { useStore } from "@/store";
 const { entries, totalRows } = getData({});
+
+const store = useStore();
+
+const auth = computed(() => store.state.auth);
+
+onMounted(() => {
+    console.log(auth.value);
+
+    store.commit("auth/UPDATE_AUTH", "Ghaffar");
+    console.log(auth.value);
+});
 
 // icon manager
 const icon = computed(() => ({
@@ -106,7 +121,6 @@ const detail = reactive({
 });
 
 const showDetail = (data) => {
-    console.log(data);
     detail.value = data;
     detail.modal = true;
 };
