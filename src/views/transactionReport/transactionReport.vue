@@ -4,7 +4,7 @@
             <h5>Transaction Report</h5>
         </section>
         <Card>
-            <form @submit.prevent="searchReport" class="">
+            <form @submit.prevent="searchReport" class>
                 <div class="grid lg:grid-cols-2 md:grid-cols-1 gap-4">
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
                         <div class="flex items-baseline input-group">
@@ -13,7 +13,7 @@
                             <flat-pickr
                                 v-model="searchForm.from"
                                 :config="searchForm.config"
-                                class=""
+                                class
                                 placeholder="Select datetime"
                                 name="date"
                             />
@@ -25,71 +25,79 @@
                             <flat-pickr
                                 v-model="searchForm.to"
                                 :config="searchForm.config"
-                                class=""
+                                class
                                 placeholder="Select datetime"
                                 name="date"
                             />
                         </div>
 
                         <Dropdown
-                            class=""
+                            class
                             labelPosition="side"
                             label="Exchange ID"
                             :options="optionItems.exchangeId"
                         />
 
-                        <div class="grid sm:grid-cols-1 lg:grid-cols-4 mr-4">
-                            <label class="max-w-input-label col-span-1"
-                                >Transaction Status</label
+                        <div
+                            class="
+                                grid
+                                sm:grid-cols-1
+                                md:grid-cols-4
+                                gap-4
+                                w-full
+                            "
+                        >
+                            <label class="col-span-1">Transaction Status</label>
+                            <div
+                                class="
+                                    flex
+                                    col-span-3
+                                    flex-col
+                                    gap-4
+                                    md:flex-row
+                                    w-full
+                                "
                             >
-                            <div class="sm:col-span-1 lg:col-span-3">
-                                <div
-                                    class="
-                                        grid
-                                        sm:grid-cols-1
-                                        lg:grid-cols-3
-                                        gap-2
-                                    "
-                                >
-                                    <Checkbox
-                                        id="cbStatus"
-                                        label="Successful"
-                                        checkbox-position="right"
-                                        :spaced="true"
-                                        @update="handleUpdate"
-                                        class="flex-1"
-                                    />
-                                    <Checkbox
-                                        id="cbStatus"
-                                        label="Pending"
-                                        checkbox-position="right"
-                                        :spaced="true"
-                                        @update="handleUpdate"
-                                        class="flex-1"
-                                    />
-                                    <Checkbox
-                                        id="cbStatus"
-                                        label="Unsuccessful"
-                                        checkbox-position="right"
-                                        :spaced="true"
-                                        @update="handleUpdate"
-                                        class="flex-1"
-                                    />
-                                </div>
+                                <Checkbox
+                                    id="cbStatus"
+                                    label="Successful"
+                                    checkbox-position="right"
+                                    :spaced="true"
+                                    @update="handleUpdate"
+                                    class="col-span-1s"
+                                />
+                                <Checkbox
+                                    id="cbStatus"
+                                    label="Pending"
+                                    checkbox-position="right"
+                                    :spaced="true"
+                                    @update="handleUpdate"
+                                    class
+                                />
+                                <Checkbox
+                                    id="cbStatus"
+                                    label="Unsuccessful"
+                                    checkbox-position="right"
+                                    :spaced="true"
+                                    @update="handleUpdate"
+                                    class
+                                />
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
                         <Dropdown
-                            class=""
+                            class
                             labelPosition="side"
                             label="Seller ID"
                             :options="optionItems.sellerId"
-                        /><Input
+                        />
+                        <Input
                             id="statusInput"
                             label-position="side"
                             label="FPX Transaction ID"
-                        /><Input
+                        />
+                        <Input
                             id="statusInput"
                             label-position="side"
                             label="Merchant Transaction ID"
@@ -123,20 +131,20 @@
                 @entry-resize="handleResize"
             >
                 <template #row_triggerDateTime="{ entry }">
-                    <span class="whitespace-nowrap">{{
-                        entry.triggerDateTime
-                    }}</span>
+                    <span class="whitespace-nowrap">
+                        {{ entry.triggerDateTime }}
+                    </span>
                 </template>
-                <template #row_fpxTransactionId="{ entry }">
-                    {{ entry.fpxTransactionId }}
-                </template>
-                <template #row_merchantTransactionId="{ entry }">
-                    {{ entry.merchantTransactionId }}
-                </template>
-                <template #row_amount="{ entry }"> {{ entry.amount }} </template
-                ><template #row_reportStatus="{ entry }">
-                    <span class="whitespace-nowrap"
-                        ><FontAwesomeIcon
+                <template #row_fpxTransactionId="{ entry }">{{
+                    entry.fpxTransactionId
+                }}</template>
+                <template #row_merchantTransactionId="{ entry }">{{
+                    entry.merchantTransactionId
+                }}</template>
+                <template #row_amount="{ entry }">{{ entry.amount }}</template>
+                <template #row_reportStatus="{ entry }">
+                    <span class="whitespace-nowrap">
+                        <FontAwesomeIcon
                             :icon="faCircle"
                             flip="horizontal"
                             :class="{
@@ -147,37 +155,39 @@
                             }"
                         />
                         {{ entry.reportStatus }}
-                    </span> </template
-                ><template #row_reportReason="{ entry }">
-                    <span class="whitespace-nowrap">{{
-                        entry.reportReason
-                    }}</span> </template
-                ><template #row_statusDatetime="{ entry }">
-                    <span class="whitespace-nowrap">{{
-                        entry.statusDatetime
-                    }}</span> </template
-                ><template #row_buyerBank="{ entry }">
-                    <span class="whitespace-nowrap">{{
-                        entry.buyerBank
-                    }}</span></template
-                ><template #row_buyerName="{ entry }">
-                    <span class="whitespace-nowrap">{{
-                        entry.buyerName
-                    }}</span></template
-                ><template #row_buyerEmail="{ entry }">
-                    {{ entry.buyerEmail }} </template
-                ><template #row_exchangeId="{ entry }">
-                    <span class="whitespace-nowrap">{{
-                        entry.exchangeId
-                    }}</span></template
-                ><template #row_sellerId="{ entry }">
-                    <span class="whitespace-nowrap">{{
-                        entry.sellerId
-                    }}</span></template
-                ><template #row_configuration="{ entry }">
-                    <span class="whitespace-nowrap">{{
-                        entry.configuration
-                    }}</span>
+                    </span>
+                </template>
+                <template #row_reportReason="{ entry }">
+                    <span class="whitespace-nowrap">
+                        {{ entry.reportReason }}
+                    </span>
+                </template>
+                <template #row_statusDatetime="{ entry }">
+                    <span class="whitespace-nowrap">
+                        {{ entry.statusDatetime }}
+                    </span>
+                </template>
+                <template #row_buyerBank="{ entry }">
+                    <span class="whitespace-nowrap">{{ entry.buyerBank }}</span>
+                </template>
+                <template #row_buyerName="{ entry }">
+                    <span class="whitespace-nowrap">{{ entry.buyerName }}</span>
+                </template>
+                <template #row_buyerEmail="{ entry }">{{
+                    entry.buyerEmail
+                }}</template>
+                <template #row_exchangeId="{ entry }">
+                    <span class="whitespace-nowrap">
+                        {{ entry.exchangeId }}
+                    </span>
+                </template>
+                <template #row_sellerId="{ entry }">
+                    <span class="whitespace-nowrap">{{ entry.sellerId }}</span>
+                </template>
+                <template #row_configuration="{ entry }">
+                    <span class="whitespace-nowrap">
+                        {{ entry.configuration }}
+                    </span>
                 </template>
                 <template #row_action="{ entry }">
                     <button
@@ -192,8 +202,8 @@
         </Card>
 
         <!-- detail modal -->
-        <Modal v-model="detail.modal" size="lg" :hideFooter="true"
-            ><template v-slot:content>
+        <Modal v-model="detail.modal" size="lg" :hideFooter="true">
+            <template v-slot:content>
                 <!-- Detail -->
                 <div class="grid grid-cols-2 gap-4 mb-8">
                     <div class="col-span-1">
@@ -203,9 +213,9 @@
                         </div>
                         <div class="div-group">
                             <label>Merchant Transaction ID :</label>
-                            <span>{{
-                                detail.value.merchantTransactionId
-                            }}</span>
+                            <span>
+                                {{ detail.value.merchantTransactionId }}
+                            </span>
                         </div>
                     </div>
                     <div class="col-span-1">
@@ -274,14 +284,13 @@
                 <div class="grid grid-cols-12 gap-4">
                     <label class="col-span-2 text-right">Logs :</label>
                     <div class="flex flex-col col-span-10">
-                        <span
-                            >16/03/2021 10:23:41 - Transaction request
-                            received.</span
-                        >
-                        <span
-                            >16/03/2021 10:23:46 - Transaction request sent to
-                            FPX</span
-                        >
+                        <span>
+                            16/03/2021 10:23:41 - Transaction request received.
+                        </span>
+                        <span>
+                            16/03/2021 10:23:46 - Transaction request sent to
+                            FPX
+                        </span>
                         <span
                             >16/03/2021 10:35:02 - Processing Transaction</span
                         >
@@ -289,8 +298,8 @@
                         <span>16/03/2021 10:35:52 - Callback sent</span>
                     </div>
                 </div>
-            </template></Modal
-        >
+            </template>
+        </Modal>
     </Layout>
 </template>
 
