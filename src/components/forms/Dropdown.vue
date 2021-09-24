@@ -6,12 +6,14 @@
     >
         <p class="label">{{ dropdownProps.label }}</p>
         <div class="wrapper">
-            <button class="container" type="button" @click="handleClick">
+            <button type="button" class="container" @click="handleClick">
                 <input
-                    type="hidden"
+                    type="text"
+                    class="w-0"
                     :name="dropdownProps.id"
                     :id="dropdownProps.id"
                     v-model="dropdownState.selected"
+                    required
                 />
                 <p :class="['placeholder', { active: dropdownState.selected }]">
                     {{ selectedOption?.label || dropdownProps.placeholder }}
@@ -65,7 +67,6 @@ import {
     computed,
     ref,
     defineEmits,
-    onUpdated,
 } from "vue";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -151,6 +152,15 @@ const handleSelect = (e: any) => {
 
     dropdownEmits("update", { name: dropdownProps.id, value });
 };
+
+/**
+ * TODO: Things to improve:
+ * 1. Error handling
+ * 2. Groupeed select
+ * 3. Multiple select (pill)
+ * 4. Search capability
+ * 5. customized select
+ */
 </script>
 
 <style lang="postcss" scoped>

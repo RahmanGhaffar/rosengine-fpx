@@ -32,11 +32,15 @@
                         </div>
 
                         <Dropdown
-                            class
+                            id="exchangeId"
                             labelPosition="side"
                             label="Exchange ID"
                             :options="optionItems.exchangeId"
-                        />
+                        >
+                            <template #options="{ option }"
+                                >Test - {{ option.label }}</template
+                            >
+                        </Dropdown>
 
                         <div
                             class="
@@ -63,31 +67,25 @@
                                     label="Successful"
                                     checkbox-position="right"
                                     :spaced="true"
-                                    @update="handleUpdate"
-                                    class="col-span-1s"
                                 />
                                 <Checkbox
                                     id="cbStatus"
                                     label="Pending"
                                     checkbox-position="right"
                                     :spaced="true"
-                                    @update="handleUpdate"
-                                    class
                                 />
                                 <Checkbox
                                     id="cbStatus"
                                     label="Unsuccessful"
                                     checkbox-position="right"
                                     :spaced="true"
-                                    @update="handleUpdate"
-                                    class
                                 />
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-4 flex-1 min-w-mobile">
                         <Dropdown
-                            class
+                            id="sellerId"
                             labelPosition="side"
                             label="Seller ID"
                             :options="optionItems.sellerId"
@@ -106,11 +104,7 @@
                 </div>
 
                 <div class="flex justify-between mt-3">
-                    <button
-                        type="reset"
-                        class="btn-light btn-base"
-                        @click="reset"
-                    >
+                    <button type="reset" class="btn-light btn-base">
                         Reset
                     </button>
                     <button type="submit" class="btn-primary btn-base">
@@ -131,16 +125,16 @@
                 @entry-resize="handleResize"
             >
                 <template #row_triggerDateTime="{ entry }">
-                    <span class="whitespace-nowrap">
-                        {{ entry.triggerDateTime }}
-                    </span>
+                    <span class="whitespace-nowrap">{{
+                        entry.triggerDateTime
+                    }}</span>
                 </template>
-                <template #row_fpxTransactionId="{ entry }">{{
-                    entry.fpxTransactionId
-                }}</template>
-                <template #row_merchantTransactionId="{ entry }">{{
-                    entry.merchantTransactionId
-                }}</template>
+                <template #row_fpxTransactionId="{ entry }">
+                    {{ entry.fpxTransactionId }}
+                </template>
+                <template #row_merchantTransactionId="{ entry }">
+                    {{ entry.merchantTransactionId }}
+                </template>
                 <template #row_amount="{ entry }">{{ entry.amount }}</template>
                 <template #row_reportStatus="{ entry }">
                     <span class="whitespace-nowrap">
@@ -158,14 +152,14 @@
                     </span>
                 </template>
                 <template #row_reportReason="{ entry }">
-                    <span class="whitespace-nowrap">
-                        {{ entry.reportReason }}
-                    </span>
+                    <span class="whitespace-nowrap">{{
+                        entry.reportReason
+                    }}</span>
                 </template>
                 <template #row_statusDatetime="{ entry }">
-                    <span class="whitespace-nowrap">
-                        {{ entry.statusDatetime }}
-                    </span>
+                    <span class="whitespace-nowrap">{{
+                        entry.statusDatetime
+                    }}</span>
                 </template>
                 <template #row_buyerBank="{ entry }">
                     <span class="whitespace-nowrap">{{ entry.buyerBank }}</span>
@@ -173,21 +167,21 @@
                 <template #row_buyerName="{ entry }">
                     <span class="whitespace-nowrap">{{ entry.buyerName }}</span>
                 </template>
-                <template #row_buyerEmail="{ entry }">{{
-                    entry.buyerEmail
-                }}</template>
+                <template #row_buyerEmail="{ entry }">
+                    {{ entry.buyerEmail }}
+                </template>
                 <template #row_exchangeId="{ entry }">
-                    <span class="whitespace-nowrap">
-                        {{ entry.exchangeId }}
-                    </span>
+                    <span class="whitespace-nowrap">{{
+                        entry.exchangeId
+                    }}</span>
                 </template>
                 <template #row_sellerId="{ entry }">
                     <span class="whitespace-nowrap">{{ entry.sellerId }}</span>
                 </template>
                 <template #row_configuration="{ entry }">
-                    <span class="whitespace-nowrap">
-                        {{ entry.configuration }}
-                    </span>
+                    <span class="whitespace-nowrap">{{
+                        entry.configuration
+                    }}</span>
                 </template>
                 <template #row_action="{ entry }">
                     <button
@@ -213,9 +207,9 @@
                         </div>
                         <div class="div-group">
                             <label>Merchant Transaction ID :</label>
-                            <span>
-                                {{ detail.value.merchantTransactionId }}
-                            </span>
+                            <span>{{
+                                detail.value.merchantTransactionId
+                            }}</span>
                         </div>
                     </div>
                     <div class="col-span-1">
@@ -284,9 +278,10 @@
                 <div class="grid grid-cols-12 gap-4">
                     <label class="col-span-2 text-right">Logs :</label>
                     <div class="flex flex-col col-span-10">
-                        <span>
-                            16/03/2021 10:23:41 - Transaction request received.
-                        </span>
+                        <span
+                            >16/03/2021 10:23:41 - Transaction request
+                            received.</span
+                        >
                         <span>
                             16/03/2021 10:23:46 - Transaction request sent to
                             FPX
@@ -329,10 +324,23 @@ const dataState = reactive({
 
 const detail = reactive({
     modal: false,
-    value: {},
+    value: {
+        fpxTransactionId: "",
+        merchantTransactionId: "",
+        reportStatus: "",
+        statusDatetime: "",
+        amount: "",
+        buyerName: "",
+        triggerDateTime: "",
+        sellerId: "",
+        exchangeId: "",
+        buyerBank: "",
+        reportReason: "",
+    },
 });
 
-const viewDetail = (report) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const viewDetail = (report: any) => {
     detail.value = report;
     detail.modal = true;
 };

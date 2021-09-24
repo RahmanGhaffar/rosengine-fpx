@@ -1,22 +1,23 @@
 <template>
     <Layout>
         <section class="flex flex-col gap-2">
-            <h5>Documentation</h5>
+            <h5>Redirect to Rosengine FPX Documentation...</h5>
         </section>
-        <Card>
-            <Accordion></Accordion>
-        </Card>
     </Layout>
 </template>
 
 <script setup lang="ts">
-// Importing components
-// import Checkbox from "@/components/forms/Checkbox.vue";
 import Layout from "@/components/layouts/Dashboard.vue";
-import Card from "@/components/containers/Card.vue";
-// import TableData from "@/components/containers/TableData.vue";
-// import Input from "@/components/forms/Input.vue";
-import Accordion from "@/components/containers/accordion.vue";
+import { onMounted } from "vue";
+
+onMounted(() => {
+    window
+        .open(
+            "https://documenter.getpostman.com/view/7603697/UUxwBorG",
+            "_blank"
+        )
+        .focus();
+});
 </script>
 <style scoped>
 .accordion {

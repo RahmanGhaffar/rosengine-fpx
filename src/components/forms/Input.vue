@@ -6,18 +6,22 @@
         <div class="input-wrapper flex flex-row flex-1 relative w-full">
             <div
                 class="prefix"
-                v-if="!!prefix"
+                v-if="!!prefix || $slots.input_prefix"
                 :class="{
                     error: inputHandler.isError,
                     focus: inputHandler.isFocused,
                 }"
             >
-                <p>{{ prefix }}</p>
+                <p v-if="!$slots.input_prefix">{{ prefix }}</p>
+                <slot name="input_prefix" />
             </div>
             <input
                 :class="{
-                    inputPrefix: !!prefix,
-                    inputPostfix: !!postfix || props.type === 'password',
+                    inputPrefix: !!prefix || $slots.input_prefix,
+                    inputPostfix:
+                        !!postfix ||
+                        props.type === 'password' ||
+                        $slots.input_postfix,
                     error: inputHandler.isError,
                 }"
                 :type="
@@ -52,13 +56,18 @@
             </button> -->
             <div
                 class="postfix"
-                v-if="!!postfix || props.type === 'password'"
+                v-if="
+                    !!postfix ||
+                    props.type === 'password' ||
+                    $slots.input_postfix
+                "
                 :class="{
                     password: props.type === 'password',
                     error: inputHandler.isError,
                     focus: inputHandler.isFocused,
                 }"
             >
+                <slot name="input_postfix" />
                 <button
                     type="button"
                     class="h-full px-4 py-2 w-14"
@@ -77,7 +86,7 @@
                         v-if="!inputHandler.passwordVisible"
                     />
                 </button>
-                <p>{{ postfix }}</p>
+                <p v-if="!$slots.input_postfix">{{ postfix }}</p>
             </div>
         </div>
         <label
@@ -85,7 +94,7 @@
             :class="{
                 filled: !!inputHandler.inputElement,
                 focus: inputHandler.isFocused,
-                hasPrefix: !!prefix,
+                hasPrefix: !!prefix || $slots.input_prefix,
             }"
             >{{ props.label }} {{ required ? "*" : "" }}</label
         >

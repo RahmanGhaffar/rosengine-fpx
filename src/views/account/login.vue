@@ -13,25 +13,36 @@
                 <span>Enter your email address and password to proceed.</span>
                 <form @submit.prevent="loginUser">
                     <Input
+                        id="email"
                         v-model="login.email"
                         type="email"
                         labelPostiton="top"
                         label="Email"
-                        prefix="faEnvelope"
-                    />
+                    >
+                        <template #input_prefix>
+                            <FontAwesomeIcon
+                                :icon="faEnvelope"
+                            ></FontAwesomeIcon>
+                        </template>
+                    </Input>
                     <Input
+                        id="password"
                         v-model="login.password"
                         type="password"
                         labelPostiton="top"
                         label="Password"
-                        prefix="faEnvelope"
-                    />
-                    <a href="/forgot-password" class="float-right"
-                        ><span class="link-light mt-2"
-                            >Forgot Your password?</span
-                        ></a
                     >
+                        <template #input_prefix>
+                            <FontAwesomeIcon :icon="faLock"></FontAwesomeIcon>
+                        </template>
+                    </Input>
+                    <a href="/forgot-password" class="float-right">
+                        <span class="link-light mt-2"
+                            >Forgot Your password?</span
+                        >
+                    </a>
                     <Checkbox
+                        id="cbRememberMe"
                         checkboxPosition="left"
                         class="mt-12"
                         label="Remember me"
@@ -59,6 +70,10 @@ import Input from "@/components/forms/Input.vue";
 import Checkbox from "@/components/forms/Checkbox.vue";
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
+
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+
 const router = useRouter();
 // import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // import { faEnvelope } from "@fortawesome/free-regular-svg-icons";

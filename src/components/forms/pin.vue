@@ -1,3 +1,4 @@
+/
 <template>
     <div class="flex w-max gap-4">
         <input
@@ -22,11 +23,18 @@
 </template>
 
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineProps, defineEmits, computed } from "vue";
 
 const props = defineProps({
-    modelValue: String,
-    length: Number,
+    modelValue: {
+        type: String,
+        default: "",
+    },
+    length: {
+        type: Number,
+        default: 0,
+    },
 });
 
 const input = computed(() => props.modelValue);
@@ -35,10 +43,10 @@ const emit = defineEmits(["update:modelValue"]);
 
 const test = (event: any) => {
     const numberOnly = /^[0-9]*$/;
-    var id = parseInt(event.target.id.substr(3));
+    const id = parseInt(event.target.id.substr(3)) || 0;
 
     if (event.key === "Backspace" || event.key === "Delete") {
-        var idBefore = id - 1;
+        const idBefore = id - 1 || 0;
         var delValue =
             input.value.substr(0, id - 1) + "-" + input.value.substr(id);
 
@@ -54,8 +62,9 @@ const test = (event: any) => {
         emit("update:modelValue", newValue.substr(0, props.length));
 
         if (id < props.length) {
-            var idNext = parseInt(id) + 1;
-            document.getElementById("pin" + idNext).focus();
+            const idNext = id + 1 || 0;
+            const idStr = "pin" + idNext || "dwadawd";
+            document.getElementById(idStr).focus();
         }
     } else {
         return;

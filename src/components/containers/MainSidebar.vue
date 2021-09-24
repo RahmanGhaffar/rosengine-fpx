@@ -280,6 +280,13 @@ const state = reactive<State>({
 const changeFocusedMenu = (selectedPath: string) => {
     if (selectedPath.startsWith("/")) {
         return router.push(selectedPath);
+    } else if (selectedPath === "/api/docs") {
+        window
+            .open(
+                "https://documenter.getpostman.com/view/7603697/UUxwBorG",
+                "_blank"
+            )
+            .focus();
     }
 
     if (state.focusedMenu !== selectedPath) state.focusedMenu = selectedPath;
@@ -348,3 +355,11 @@ nav {
     scrollbar-color: #cbd5e0dd transparent;
 }
 </style>
+
+img { @apply max-h-full; } ul { @apply list-none; } .collapse { @apply
+w-sidebar-collapse; } nav button { @apply h-12 w-full text-left px-4 py-2
+rounded-md flex flex-row gap-2 items-center text-primary-400 hover:text-white
+focus:text-white hover:bg-primary-400 focus:bg-primary-400; } nav
+button[data-active="true"] { @apply bg-primary-600 text-white; } /* button:focus
+~ ul { @apply max-h-screen; } */ ul.focused { @apply max-h-screen; } nav {
+scrollbar-width: thin; scrollbar-color: #cbd5e0dd transparent; }

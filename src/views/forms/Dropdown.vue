@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <section class="flex flex-col gap-2">
-            <h1>Checkbox</h1>
+            <h1>Dropdown</h1>
         </section>
         <section class="flex flex-col gap-8">
             <Card title="Introduction">
@@ -16,7 +16,7 @@
                     </code-highlight>
                 </div>
             </Card>
-            <!-- <Card title="Props">
+            <Card title="Props">
                 <p>
                     Here are the list of acceptable props for
                     <code>Checkbox</code> component:
@@ -45,79 +45,45 @@
                                 <td><code>label</code></td>
                                 <td><code>string</code></td>
                                 <td></td>
-                                <td><code>false</code></td>
+                                <td><code>true</code></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td><code>checkboxPosition</code></td>
+                                <td><code>labelPosition</code></td>
                                 <td><code>string</code></td>
-                                <td><code>left</code></td>
+                                <td><code>top</code></td>
                                 <td><code>false</code></td>
                                 <td class="max-w-xs">
                                     Accepted values:
-                                    <code>"left"</code>, <code>"right"</code>
+                                    <code>"top"</code>, <code>"side"</code>
                                 </td>
                             </tr>
                             <tr>
-                                <td><code>spaced</code></td>
-                                <td><code>boolean</code></td>
-                                <td><code>false</code></td>
-                                <td><code>false</code></td>
-                                <td class="max-w-xs">
-                                    Put whitespace between checkbox and label.
-                                    Useful when creating full-screen form.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><code>defaultValue</code></td>
-                                <td><code>boolean</code></td>
-                                <td></td>
-                                <td><code>false</code></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><code>wrapperClass</code></td>
+                                <td><code>placeholder</code></td>
                                 <td><code>string</code></td>
+                                <td>Please select one...</td>
+                                <td><code>true</code></td>
                                 <td></td>
+                            </tr>
+                            <tr>
+                                <td><code>options</code></td>
+                                <td>
+                                    <code>Array&lt;DropdownOption&gt;</code>
+                                </td>
+                                <td><code>[]</code></td>
                                 <td><code>false</code></td>
                                 <td>
                                     Adding class to the wrapper of the checkbox
                                 </td>
                             </tr>
-                            <tr>
-                                <td><code>checkboxClass</code></td>
-                                <td><code>string</code></td>
-                                <td></td>
-                                <td><code>false</code></td>
-                                <td>
-                                    Adding class to the input of the checkbox
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><code>inputAttrs</code></td>
-                                <td>
-                                    <a
-                                        href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        ><code>InputHTMLAttributes</code></a
-                                    >
-                                </td>
-                                <td></td>
-                                <td><code>false</code></td>
-                                <td>
-                                    Accepting other attributes of input. Passing
-                                    events is not advisable. Use emit instead.
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
-            </Card> -->
-            <!-- <Card title="Emits">
+            </Card>
+            <Card title="Emits">
                 <p>
                     Here are the list of available emits for
-                    <code>Checkbox</code> component:
+                    <code>Dropdown</code> component:
                 </p>
 
                 <div class="overflow-x-auto">
@@ -133,151 +99,38 @@
                             <tr>
                                 <td><code>update</code></td>
                                 <td>
-                                    <pre class="code">{{
+                                    <!-- <pre class="code">{{
                                         codeSample.emitUpdateParams
-                                    }}</pre>
+                                    }}</pre> -->
                                 </td>
                                 <td>
-                                    For exposing checkbox value to component.
+                                    For exposing dropdown value to component.
                                     Refer to form guides for more info.
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </Card> -->
-            <!-- <Card title="Sample: Left Checkbox">
-                <p class="text-dark-500 font-bold">Your favourite food:</p>
-                <Checkbox label="🍕" id="first" />
-                <Checkbox label="🍔" id="second" />
-                <Checkbox label="🥓" id="third" />
-                <Checkbox label="Krusty Fried Chicked" id="fourth" />
-
-                <p class="text-dark-500 mt-8 font-bold">
-                    How about spaced checkbox?
-                </p>
-                <div
-                    class="
-                        max-w-md
-                        flex flex-col
-                        gap-4
-                        p-4
-                        border border-light-500
-                        rounded
-                    "
-                >
-                    <Checkbox label="Cool" id="ques2-1" :spaced="true" />
-                    <Checkbox label="Attractive" id="ques2-2" :spaced="true" />
-                    <Checkbox label="Organised" id="ques2-3" :spaced="true" />
-                    <Checkbox label="Awesome!" id="ques2-4" :spaced="true" />
-                </div>
-            </Card> -->
-            <!-- <Card title="Sample: Left Checkbox">
-                <p class="text-dark-500 font-bold">Your favourite food:</p>
-                <Checkbox id="ques3-1" label="🍕" checkbox-position="right" />
-                <Checkbox id="ques3-2" label="🍔" checkbox-position="right" />
-                <Checkbox id="ques3-3" label="🥓" checkbox-position="right" />
-                <Checkbox
-                    id="ques3-4"
-                    label="Krusty Fried Chicked"
-                    checkbox-position="right"
-                />
-                <Checkbox
-                    id="ques3-5"
-                    label="You noticed the typo, right?"
-                    checkbox-position="right"
-                />
-
-                <p class="text-dark-500 mt-8 font-bold">
-                    How about spaced checkbox?
-                </p>
-                <div
-                    class="
-                        max-w-md
-                        flex flex-col
-                        gap-4
-                        p-4
-                        border border-light-500
-                        rounded
-                    "
-                >
-                    <Checkbox
-                        id="ques4-1"
-                        label="Cool"
-                        checkbox-position="right"
-                        :spaced="true"
-                    />
-                    <Checkbox
-                        id="ques4-2"
-                        label="Attractive"
-                        checkbox-position="right"
-                        :spaced="true"
-                    />
-                    <Checkbox
-                        id="ques4-3"
-                        label="Organised"
-                        checkbox-position="right"
-                        :spaced="true"
-                    />
-                    <Checkbox
-                        id="ques4-4"
-                        label="Awesome"
-                        checkbox-position="right"
-                        :spaced="true"
-                    />
-                </div>
-            </Card> -->
+            </Card>
             <Card title="Dropdown sample">
-                <Dropdown
-                    id="dropdown-1"
-                    label="Choose one"
-                    :options="sampleOptions1"
-                />
-                <Dropdown
-                    id="dropdown-1"
-                    label="Choose one"
-                    :options="sampleOptions2"
-                />
-                <Dropdown
-                    id="dropdown-1"
-                    label="Choose one"
-                    :options="sampleOptions2"
-                />
-                <Dropdown
-                    id="dropdown-1"
-                    label="Choose one"
-                    :options="sampleOptions2"
-                />
-                <Dropdown
-                    id="dropdown-1"
-                    label="Choose one"
-                    :options="sampleOptions2"
-                />
-                <Dropdown
-                    id="dropdown-1"
-                    label="Choose one"
-                    :options="sampleOptions2"
-                />
-                <Dropdown
-                    id="dropdown-1"
-                    label="Choose one"
-                    :options="sampleOptions2"
-                />
-                <Dropdown
-                    id="dropdown-1"
-                    label="Choose one"
-                    :options="sampleOptions2"
-                />
-                <Dropdown
-                    id="dropdown-1"
-                    label="Choose one"
-                    :options="sampleOptions2"
-                />
-                <Dropdown
-                    id="dropdown-1"
-                    label="Choose one"
-                    :options="sampleOptions2"
-                />
+                <form
+                    @submit.prevent="handleSubmit"
+                    class="flex flex-col gap-4"
+                >
+                    <Dropdown
+                        id="dropdown-1"
+                        label="Choose one"
+                        :options="sampleOptions1"
+                    />
+                    <Dropdown
+                        id="dropdown-2"
+                        label="Choose one (with example)"
+                        :options="sampleOptions2"
+                    />
+                    <button type="submit" class="btn-base btn-primary">
+                        Submit
+                    </button>
+                </form>
             </Card>
         </section>
     </Layout>
@@ -341,6 +194,14 @@ const sampleOptions2 = [
         label: "Option 5",
     },
 ];
+
+const handleSubmit = ({ target }: { target: HTMLFormElement }) => {
+    console.log(
+        Object.values(target.elements).filter((element) =>
+            ["dropdown-1", "dropdown-2"].includes(element.id)
+        )
+    );
+};
 
 // const handleUpdate = ({
 //     name,
