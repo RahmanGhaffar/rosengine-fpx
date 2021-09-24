@@ -9,14 +9,28 @@
             <button type="button" class="container" @click="handleClick">
                 <input
                     type="text"
-                    class="w-0"
+                    class="w-0 absolute"
                     :name="dropdownProps.id"
                     :id="dropdownProps.id"
                     v-model="dropdownState.selected"
                     required
                 />
                 <p :class="['placeholder', { active: dropdownState.selected }]">
-                    {{ selectedOption?.label || dropdownProps.placeholder }}
+                    {{
+                        $slots.options_selected
+                            ? null
+                            : selectedOption?.label || dropdownProps.placeholder
+                    }}
+                    <!-- {{
+                        $slots.options
+                            ? null
+                            : selectedOption?.label || dropdownProps.placeholder
+                    }} -->
+                    <slot
+                        name="options_selected"
+                        :option="selectedOption"
+                        :placeholder="dropdownProps.placeholder"
+                    />
                 </p>
                 <!-- <FontAwesomeIcon
                     :icon="
@@ -49,7 +63,8 @@
                     @click="handleSelect"
                     :disabled="option.disabled"
                 >
-                    {{ option.label }}
+                    <slot name="options" :option="option" />
+                    {{ !$slots.options ? option.label : null }}
                 </button>
                 <!-- <button class="options_item">Hello</button>
                 <button class="options_item">Holla</button>
@@ -67,6 +82,7 @@ import {
     computed,
     ref,
     defineEmits,
+    useSlots,
 } from "vue";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -152,7 +168,6 @@ const handleSelect = (e: any) => {
 
     dropdownEmits("update", { name: dropdownProps.id, value });
 };
-
 /**
  * TODO: Things to improve:
  * 1. Error handling
@@ -214,7 +229,7 @@ const handleSelect = (e: any) => {
             }
 
             &_item {
-                @apply px-4 py-3 rounded hover:bg-primary-300 hover:text-white text-left transition-colors duration-100 ease-linear;
+                @apply px-4 py-3 rounded hover:bg-primary-300 hover:text-white focus:bg-primary-300 focus:text-white text-left transition-colors duration-100 ease-linear;
                 &.active {
                     @apply bg-primary-500 text-white;
                 }
