@@ -1,56 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { store } from "@/store";
 // import Home from "../views/Home.vue";
 import Page404 from "../views/404.vue";
 
 const routes: Array<RouteRecordRaw> = [
-    // Main Page
-    {
-        path: "/",
-        name: "Main Page",
-        component: () => import("../views/mainPage.vue"),
-        meta: { required: false },
-    },
-
-    // Account Page
-    {
-        path: "/login",
-        name: "Login",
-        component: () => import("../views/account/login.vue"),
-        meta: { required: false },
-    },
-    {
-        path: "/set-pin",
-        name: "Set Pin",
-        component: () => import("../views/account/setPin.vue"),
-        meta: { required: false },
-    },
-
     // Transaction Report
     {
         path: "/transaction-report",
         name: "Transaction Report",
         component: () =>
             import("../views/transactionReport/transactionReport.vue"),
-        meta: { required: false },
+        meta: { authRequired: false },
     },
     // Configuration
     {
         path: "/config/list",
         name: "configurationList",
         component: () => import("../views/configuration/list.vue"),
-        meta: { required: false },
+        meta: { authRequired: false },
     },
     {
         path: "/config/manage",
         name: "configurationManage",
         component: () => import("../views/configuration/manage.vue"),
-        meta: { required: false },
+        meta: { authRequired: false },
     },
     {
         path: "/config/add",
         name: "configurationAdd",
         component: () => import("../views/configuration/add.vue"),
-        meta: { required: false },
+        meta: { authRequired: false },
     },
 
     // API Log
@@ -58,121 +38,105 @@ const routes: Array<RouteRecordRaw> = [
         path: "/api/log",
         name: "apiLog",
         component: () => import("../views/apiLog/apiLog.vue"),
-        meta: { required: false },
+        meta: { authRequired: false },
     },
     {
         path: "/api/docs",
         name: "API Documentation",
-        component: () => import("../views/mainPage.vue"),
+        component: () =>
+            import("../views/transactionReport/transactionReport.vue"),
         beforeEnter: () => {
             window.open(
                 "https://documenter.getpostman.com/view/7603697/UUxwBorG",
                 "_blank"
             );
         },
-        meta: { required: false },
+        meta: { authRequired: false },
     },
-    // {
-    //     path: "/",
-    //     name: "Home",
-    //     component: Home,
-    // },
+
+    // Main Page
     {
-        path: "/about",
-        name: "About",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import(/* webpackChunkName: "about" */ "../views/About.vue"),
-        meta: { required: false },
+        path: "/",
+        name: "dashboard",
+        component: () => import("../views/mainPage.vue"),
+        meta: { authRequired: false },
     },
 
-    // TODO: For nested routes, use children
-    // Temporarily declare this way - will improve later
-    // AUTH ROUTES
+    // Account Page
     {
-        path: "/auth/sign-in",
-        name: "Sign In",
-        component: () => import("../views/auth/SignIn.vue"),
-        meta: { required: false },
+        path: "/login",
+        name: "login",
+        component: () => import("../views/account/login.vue"),
+        meta: {
+            beforeResolve(routeTo: any, routeFrom: any, next: any) {
+                // If the user is already logged in
+                if (store.getters["auth/loggedIn"]) {
+                    // Redirect to the home page instead
+                    next({ name: "dashboard" });
+                } else {
+                    // Continue to the login page
+                    next();
+                }
+            },
+        },
     },
     {
-        path: "/auth/register",
-        name: "Register",
-        component: () => import("../views/auth/SignUp.vue"),
-        meta: { required: false },
+        path: "/set-pin",
+        name: "set-pin",
+        component: () => import("../views/account/setPin.vue"),
+        meta: {
+            beforeResolve(routeTo: any, routeFrom: any, next: any) {
+                // If the user is already logged in
+                if (store.getters["auth/loggedIn"]) {
+                    // Redirect to the home page instead
+                    next({ name: "dashboard" });
+                } else {
+                    // Continue to the login page
+                    next();
+                }
+            },
+        },
     },
-
-    // // BASIC ROUTES
-    // {
-    //     path: "/basics/text",
-    //     name: "Texts",
-    //     component: () => import("../views/basics/Text.vue"),
-    // },
-    // {
-    //     path: "/basics/button",
-    //     name: "Buttons",
-    //     component: () => import("../views/basics/Button.vue"),
-    // },
-
-    // // FORMS ROUTES
-    // {
-    //     path: "/forms/guides",
-    //     name: "Form Guide",
-    //     component: () => import("../views/forms/Guides.vue"),
-    // },
-    // {
-    //     path: "/forms/input",
-    //     name: "Input",
-    //     component: () => import("../views/forms/Input.vue"),
-    // },
-    // {
-    //     path: "/forms/checkbox",
-    //     name: "Checkbox",
-    //     component: () => import("../views/forms/Checkbox.vue"),
-    // },
-    // {
-    //     path: "/forms/dropdown",
-    //     name: "Dropdown",
-    //     component: () => import("../views/forms/Dropdown.vue"),
-    // },
-
-    // // CONTAINERS ROUTES
-    // {
-    //     path: "/containers/card",
-    //     name: "Card",
-    //     component: () => import("../views/containers/Card.vue"),
-    // },
-    // {
-    //     path: "/containers/table",
-    //     name: "Table",
-    //     component: () => import("../views/containers/Table.vue"),
-    // },
-    // {
-    //     path: "/containers/table-data",
-    //     name: "Table Data",
-    //     component: () => import("../views/containers/TableData.vue"),
-    // },
-
-    // // LAYOUT ROUTES
-    // {
-    //     path: "/layouts/dashboard",
-    //     name: "Dashboard Layout",
-    //     component: () => import("../views/layouts/Dashboard.vue"),
-    // },
-    // {
-    //     path: "/layouts/single-card",
-    //     name: "Single Card Layout",
-    //     component: () => import("../views/layouts/Card.vue"),
-    // },
-
-    // // CONFIG ROUTES
-    // {
-    //     path: "/themes",
-    //     name: "Themes",
-    //     component: () => import("../views/themes/Index.vue"),
-    // },
+    {
+        path: "/logout",
+        name: "logout",
+        meta: {
+            authRequired: false,
+            async beforeResolve(routeTo: any, routeFrom: any, next: any) {
+                await store.dispatch("auth/logOut");
+                localStorage.removeItem("user");
+                const authRequiredOnPreviousRoute = routeFrom.matched.some(
+                    (route: any) => route.meta.authRequired
+                );
+                // Navigate back to previous page, or home as a fallback
+                next(
+                    authRequiredOnPreviousRoute
+                        ? { name: "dashboard" }
+                        : { ...routeFrom }
+                );
+            },
+        },
+        redirect: { name: "login" },
+    },
+    //   {
+    //     path: '/forget-password',
+    //     name: 'forget-password',
+    //     component: () =>
+    //       lazyLoadView(
+    //         import ('@views/pages/account/forgetPassword')),
+    //     meta: {
+    //       beforeResolve(routeTo, routeFrom, next) {
+    //         // If the user is already logged in
+    //         if (store.getters['auth/loggedIn']) {
+    //           // Redirect to the home page instead
+    //           next({ name: 'dashboard' })
+    //         } else {
+    //           // Continue to the login page
+    //           next()
+    //         }
+    //       },
+    //     },
+    //   },
 
     // For 404 Error Page
     {
@@ -192,4 +156,41 @@ const router = createRouter({
     },
 });
 
+// Before each route evaluates...
+router.beforeEach((routeTo, routeFrom, next) => {
+    // Check if auth is required on this route
+    // (including nested routes).
+    const authRequired = routeTo.matched.some(
+        (route) => route.meta.authRequired
+    );
+
+    // If auth isn't required for the route, just continue.
+    if (!authRequired) return next();
+
+    // If auth is required and the user is logged in...
+    if (store.getters["auth/loggedIn"]) {
+        // Validate the local user token...
+        return store.dispatch("auth/validate").then((validUser) => {
+            // Then continue if the token still represents a valid user,
+            // otherwise redirect to login.
+            validUser ? next() : redirectToLogin();
+        });
+    }
+
+    // If auth is required and the user is NOT currently logged in,
+    // redirect to login.
+    redirectToLogin();
+
+    function redirectToLogin() {
+        // Pass the original route to the login component
+        next({
+            name: "Login",
+            query: { redirectFrom: encodeURIComponent(routeTo.fullPath) },
+        });
+    }
+});
+
 export default router;
+function lazyLoadView(arg0: Promise<typeof import("*.vue")>) {
+    throw new Error("Function not implemented.");
+}

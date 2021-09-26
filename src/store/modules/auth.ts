@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import API from "@/api";
 import axios from "axios";
-// import API from '@src/api'
+import API from "@/utils/api";
 // import jwt from 'jsonwebtoken'
 
 declare module "axios" {
@@ -27,9 +27,9 @@ const mutations = {
         setDefaultAuthHeaders(state);
     },
 
-    set_user_detail(state: any, user: any): void {
-        state.userDetail = user;
-    },
+    // set_user_detail(state: any, user: any): void {
+    //     state.userDetail = user;
+    // },
 
     set_detail(state: any, detail: any) {
         state.detail = detail;
@@ -60,7 +60,7 @@ const actions = {
     },
 
     // Logs in the current user.
-    logIn({ commit, dispatch, getters }: any, credentials: any) {
+    async logIn({ commit, dispatch, getters }: any, credentials: any) {
         if (getters.loggedIn) return dispatch("validate");
 
         const options = {
@@ -77,27 +77,27 @@ const actions = {
                 },
                 options
             )
-            .then((response) => {
-                console.log("Login: ", response);
+            .then(async (response) => {
                 const user = response.data;
-                dispatch("saveUserDetailAsync", user);
+                await dispatch("saveUserDetailAsync", user);
 
                 if (user.auth === true) {
-                    // console.log('running set_current_user')
                     window.localStorage.removeItem("auth.expired");
                     commit("SET_CURRENT_USER", user);
                 }
 
-                return user;
+                return {
+                    user: user,
+                    detail: state.detail,
+                };
             });
     },
 
-    // async saveUserDetailAsync({ commit }: any, user: any) {
-    //     // API.user.getUserByEmail(user.email).then(response =>{
-    //     //   localStorage.setItem("userDetail",JSON.stringify(response))
-    //     // })
-    //     // commit('set_user_detail', data)
-    // },
+    async saveUserDetailAsync({ commit }: any, user: any) {
+        await API.getUserByEmail(user.email).then((response) => {
+            commit("set_detail", response);
+        });
+    },
 
     // register the user
     // register({ commit, dispatch, getters }, { username, email, password } = {}) {
@@ -116,7 +116,10 @@ const actions = {
     // },
 
     validate({ commit, state }: any) {
-        if (!state.currentUser) return Promise.resolve(null);
+        if (!state.currentUser) {
+            console.log("current user is null");
+            return Promise.resolve(null);
+        }
 
         return axios
             .get(baseurl + "/validate", {

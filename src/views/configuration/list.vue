@@ -91,18 +91,17 @@ import { getData, GetDataProps } from "@/sample/configSample";
 // import { useStore } from "vuex";
 // const mutateAuth = auth.mutations;
 
-import { useStore } from "@/store";
+// import { useStore } from "@/store";
 const { entries, totalRows } = getData({});
 
-const store = useStore();
+// const store = useStore();
 
-const auth = computed(() => store.state.auth);
+// const auth = computed(() => store.state.auth);
 
 onMounted(() => {
-    console.log(auth.value);
-
-    store.commit("auth/UPDATE_AUTH", "Ghaffar");
-    console.log(auth.value);
+    // console.log(auth.value);
+    // store.commit("auth/UPDATE_AUTH", "Ghaffar");
+    // console.log(auth.value);
 });
 
 // icon manager

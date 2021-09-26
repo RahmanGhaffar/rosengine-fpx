@@ -3,8 +3,8 @@
         <section>
             <h5>Add Configuration</h5>
         </section>
-        <Card class="mb-12"
-            ><form
+        <Card class="mb-12">
+            <form
                 method="post"
                 @submit.prevent="addConfig"
                 class="form-control"
@@ -21,34 +21,38 @@
                     label-position="side"
                     label="Description"
                 />
-                <Input
-                    id="configTrigger"
-                    v-model="config.triggerSystem"
-                    label-position="side"
+                <Dropdown
+                    id="dropdownSystem"
+                    v-model="config.system"
+                    labelPosition="side"
                     label="Trigger System"
+                    :options="dropdown.system"
+                    @update="updateSystem"
                 />
                 <Input
                     id="configReturn"
                     v-model="config.returnUrl"
                     label-position="side"
                     label="Return URL"
-                    prefix="htps://contoh.com/"
+                    :prefix="config.url"
                 />
                 <Input
                     id="configCallback"
                     v-model="config.callbackUrl"
                     label-position="side"
                     label="Callback URL"
-                    prefix="htps://contoh.com/"
+                    :prefix="config.url"
                 />
                 <Dropdown
-                    class=""
+                    id="dropdownExchange"
+                    v-model="config.exchangeId"
                     labelPosition="side"
                     label="Exchange ID"
                     :options="dropdown.exchangeId"
+                    @update="updateExchange"
                 />
                 <Dropdown
-                    class=""
+                    id="dropdownSeller"
                     labelPosition="side"
                     label="Seller ID"
                     :options="dropdown.sellerId"
@@ -74,13 +78,14 @@
         </Card>
     </Layout>
     <!-- Add Configuration -->
-    <ConfirmModal v-model="addModal">
-        You are about to add a Configuration for a System.
-    </ConfirmModal>
+    <ConfirmModal v-model="addModal"
+        >You are about to add a Configuration for a System.</ConfirmModal
+    >
     <!-- generate new APi Key -->
     <ConfirmModal v-model="generateModal"
-        >You are about generate a new API Key for the Configuration.
-    </ConfirmModal>
+        >You are about generate a new API Key for the
+        Configuration.</ConfirmModal
+    >
 </template>
 
 <script setup lang="ts">
@@ -90,37 +95,46 @@ import Card from "@/components/containers/Card.vue";
 import Input from "@/components/forms/Input.vue";
 import ConfirmModal from "@/components/utils/modal/confirmModal.vue";
 import Dropdown from "@/components/forms/Dropdown.vue";
+import API from "@/api";
+import { reactive, ref, onBeforeMount } from "vue";
+import { store } from "@/store";
 
-import { reactive, ref } from "vue";
+onBeforeMount(async () => {
+    const currentOrg = store.state.org.currentOrg;
+    const data = await API.getConfigSelect(currentOrg.organisationId);
+    dropdown.system = data.data;
+
+    const exchange = await API.getExchangeSelect();
+    dropdown.exchangeId = exchange.data;
+});
 
 // Dropdown COnfiguration
 const dropdown = reactive({
-    exchangeId: [
-        {
-            value: "EX00001",
-            label: "EX0001 - TOYYIBPAY SDN BHD",
-        },
-        {
-            value: "EX00002",
-            label: "EX00002 - ANSI SYSTEMS SDN BHD",
-        },
-    ],
-    sellerId: [
-        {
-            value: "SE00001",
-            label: "SE00001 - TOYYIBPAY SDN BHD",
-        },
-        {
-            value: "SE00002",
-            label: "SE00002 - ANSI SYSTEMS SDN BHD",
-        },
-    ],
+    exchangeId: [],
+    sellerId: [],
+    system: [],
 });
+
+const updateSystem = (value: any) => {
+    config.system = value.value;
+    const stats = dropdown.system.find(
+        (e) => e["value"] === config.system.value
+    );
+    config.url = stats.systemDomainURL + "/";
+};
+
+const updateExchange = async (value: any) => {
+    config.exchangeId = value.value;
+
+    const resp = await API.getSellerKeySelect(config.exchangeId);
+    dropdown.sellerId = resp.data;
+};
 
 const config = reactive({
     name: "",
     desc: "",
-    triggerSystem: "",
+    system: "",
+    url: "",
     returnUrl: "",
     callbackUrl: "",
     exchangeId: "",

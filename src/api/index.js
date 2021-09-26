@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios from "axios";
 
 var module = {
@@ -26,18 +27,18 @@ var module = {
         return data;
     },
 
+    // get select option based on organisation id
     async getConfigSelect(id) {
+        var param = JSON.stringify({
+            orgId: id,
+        });
         var config = {
-            method: "get",
-            mode: "cors",
-            url:
-                "https://0cmdwaivl2.execute-api.ap-southeast-1.amazonaws.com/dev/getconfigselect?configId=" +
-                encodeURIComponent(id),
+            method: "post",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/select/system",
             headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
+                "Content-Type": "application/json",
             },
+            data: param,
         };
 
         var data = await axios(config)
@@ -217,17 +218,17 @@ var module = {
     },
 
     async getSellerKeySelect(id) {
+        var body = JSON.stringify({
+            exchangeId: id,
+        });
+
         var config = {
-            method: "get",
-            mode: "cors",
-            url:
-                "https://0cmdwaivl2.execute-api.ap-southeast-1.amazonaws.com/dev/getsellerkeyselect?exchangeId=" +
-                encodeURIComponent(id),
+            method: "post",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/select/seller",
             headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
+                "Content-Type": "application/json",
             },
+            data: body,
         };
 
         var data = await axios(config)
@@ -243,13 +244,10 @@ var module = {
 
     async getExchangeSelect() {
         var config = {
-            method: "get",
-            mode: "cors",
-            url: "https://lhx2u32rm6.execute-api.ap-southeast-1.amazonaws.com/dev/getexchangekeyselect",
+            method: "post",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/select/exchange",
             headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
+                "Content-Type": "application/json",
             },
         };
 

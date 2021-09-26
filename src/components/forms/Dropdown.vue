@@ -4,17 +4,19 @@
         class="dropdown"
         :class="[`label_position-${dropdownProps.labelPosition}`]"
     >
-        <p class="label">{{ dropdownProps.label }}</p>
+        <p v-if="dropdownProps.noLabel !== 'true'" class="label">
+            {{ dropdownProps.label }}
+        </p>
         <div class="wrapper">
             <button type="button" class="container" @click="handleClick">
-                <input
+                <!-- <input
                     type="text"
                     class="w-0 absolute"
                     :name="dropdownProps.id"
                     :id="dropdownProps.id"
                     v-model="dropdownState.selected"
                     required
-                />
+                /> -->
                 <p :class="['placeholder', { active: dropdownState.selected }]">
                     {{
                         $slots.options_selected
@@ -100,6 +102,7 @@ type DropdownProps = {
     label: string;
     options?: Array<DropdownOption>;
     placeholder?: string;
+    noLabel: string;
 };
 
 const dropdownProps = withDefaults(defineProps<DropdownProps>(), {
@@ -107,6 +110,7 @@ const dropdownProps = withDefaults(defineProps<DropdownProps>(), {
     label: "",
     placeholder: "Please select one...",
     options: () => [],
+    noLabel: "",
 });
 
 type DropdownState = {

@@ -18,24 +18,75 @@
             <button class="p-2" @click="toggleSidebar">
                 <FontAwesomeIcon :icon="icon.faBars" />
             </button>
-            <button class="p-2">
+            <!-- <button class="p-2">
                 <FontAwesomeIcon :icon="icon.faUndoAlt" flip="horizontal" />
             </button>
             <button class="p-2">
                 <FontAwesomeIcon :icon="icon.faHome" />
-            </button>
+            </button>-->
         </div>
-        <div>
-            <p>Header</p>
+        <div class="flex">
+            <Dropdown id="org" noLabel="true" :options="org.options">
+                <template #options="{ option }">
+                    <div class="flex">
+                        <Avatar v-model="option.label" size="sm" />
+                        <span class="flex flex-nowrap ml-2">{{
+                            option.label
+                        }}</span>
+                    </div></template
+                >
+                <!-- <template #options_selected="{ option }">
+                    <div class="flex items-baseline"><Avatar v-model="option.label" size="sm" />
+                    <span class="flex flex-nowrap ml-2">{{ option.label }}</span></div></template
+                > -->
+            </Dropdown>
+
+            <button @click="dropdownOpen = !dropdownOpen" class="setting">
+                <Avatar v-if="name" v-model="name" />
+            </button>
+
+            <div
+                v-show="dropdownOpen"
+                @click="dropdownOpen = false"
+                class="fixed inset-0 h-full w-full z-10"
+            ></div>
+
+            <div v-show="dropdownOpen" class="setting-box">
+                <a href="#" class="setting-option">
+                    <FontAwesomeIcon :icon="faArrowLeft" />
+                    <span class="">back to Main System</span></a
+                >
+                <a href="/logout" class="setting-option"
+                    ><FontAwesomeIcon :icon="faSignOutAlt" />
+                    <span class="">Log out</span></a
+                >
+            </div>
         </div>
     </header>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, reactive, ref, onMounted } from "vue";
 import { useStore } from "@/store";
-import { faBars, faUndoAlt, faHome } from "@fortawesome/free-solid-svg-icons";
+import {
+    faBars,
+    faUndoAlt,
+    faHome,
+    faArrowLeft,
+    faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import Dropdown from "@/components/forms/Dropdown.vue";
+import Avatar from "@/components/utils/avatar.vue";
+
+onMounted(() => {
+    const detail = store.getters["auth/detailValue"];
+    name.value = detail.userName;
+});
+
+const name = ref("");
+
+const dropdownOpen = ref(false);
 
 const store = useStore();
 const icon = computed(() => ({
@@ -44,5 +95,31 @@ const icon = computed(() => ({
     faHome,
 }));
 
+const org = reactive({
+    options: [
+        {
+            name: "ansiCode",
+            label: "ANSI Systems",
+        },
+        {
+            name: "tybCode",
+            label: "toyyibPay Sdn Bhd",
+        },
+    ],
+});
+
 const toggleSidebar = () => store.commit("layout/toggleSidebar");
 </script>
+
+<style scoped lang="postcss">
+.setting {
+    @apply relative z-10 block rounded-lg bg-white focus:outline-none;
+}
+.setting-box {
+    @apply absolute right-1 mt-16 w-max bg-white shadow-md z-20;
+}
+.setting-option {
+    text-decoration: unset;
+    @apply block px-4 py-2 text-sm text-black hover:bg-primary-100 flex items-baseline gap-3;
+}
+</style>
