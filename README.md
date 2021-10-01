@@ -1,6 +1,6 @@
 <h1 align="center">✨ NeoCorrad UI ✨</h1>
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/edf9c351-6486-41b8-98ef-48bd868fbfdb/deploy-status)](https://app.netlify.com/sites/neo-corrad-v1/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/edf9c351-6486-41b8-98ef-48bd868fbfdb/deploy-status)](https://app.netlify.com/sites/neocorrad-ui/deploys)
 
 > Currently this template is not released yet, so please use it carefully.
 
