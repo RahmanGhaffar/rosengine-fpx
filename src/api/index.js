@@ -2,21 +2,20 @@
 import axios from "axios";
 
 var module = {
-    async getTriggerSystemSelect(organisationId) {
+    getTriggerSystemSelect(id) {
+        var body = JSON.stringify({
+            orgId: id,
+        });
         var config = {
-            method: "get",
-            mode: "cors",
-            url:
-                "https://0cmdwaivl2.execute-api.ap-southeast-1.amazonaws.com/dev/getsystemselect?organisationId=" +
-                encodeURIComponent(organisationId),
+            method: "post",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/select/system",
             headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
+                "Content-Type": "application/json",
             },
+            data: body,
         };
 
-        var data = await axios(config)
+        var data = axios(config)
             .then(function (response) {
                 return response.data;
             })
@@ -27,18 +26,13 @@ var module = {
         return data;
     },
 
-    // get select option based on organisation id
-    async getConfigSelect(id) {
-        var param = JSON.stringify({
-            orgId: id,
-        });
+    async getConfigSelect() {
         var config = {
             method: "post",
-            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/select/system",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/select/config",
             headers: {
                 "Content-Type": "application/json",
             },
-            data: param,
         };
 
         var data = await axios(config)
@@ -53,17 +47,17 @@ var module = {
     },
 
     async getConfigManage(id) {
+        const body = JSON.stringify({
+            configId: id,
+        });
+
         var config = {
-            method: "get",
-            mode: "cors",
-            url:
-                "https://0cmdwaivl2.execute-api.ap-southeast-1.amazonaws.com/dev/getconfigmanagedetail?configId=" +
-                encodeURIComponent(id),
+            method: "post",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/config/manageById",
             headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
+                "Content-Type": "application/json",
             },
+            data: body,
         };
 
         var data = await axios(config)
@@ -79,13 +73,10 @@ var module = {
 
     async generateKey() {
         var config = {
-            method: "get",
-            mode: "cors",
-            url: "https://0cmdwaivl2.execute-api.ap-southeast-1.amazonaws.com/dev/generatekey",
+            method: "post",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/apikey/generate",
             headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
+                "Content-Type": "application/json",
             },
         };
 
@@ -100,17 +91,26 @@ var module = {
         return data;
     },
 
-    async updateConfig(item) {
+    async updateConfig(id, item) {
+        var body = JSON.stringify({
+            configId: id,
+            name: item.name,
+            configDesc: item.desc,
+            triggerSystem: item.triggerSystem,
+            url: item.systemUrl,
+            returnUrl: item.returnUrl,
+            callbackUrl: item.callbackUrl,
+            exchangeId: item.exchangeId,
+            sellerId: item.sellerId,
+            apiKey: item.apiKey,
+        });
         var config = {
             method: "post",
-            mode: "no-cors",
-            url: "https://0cmdwaivl2.execute-api.ap-southeast-1.amazonaws.com/dev/updateconfig",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/config/update",
             headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST",
+                "Content-Type": "application/json",
             },
-            data: item,
+            data: body,
         };
 
         var data = await axios(config)
@@ -123,17 +123,41 @@ var module = {
         return data;
     },
 
-    async deleteConfig(item) {
+    async updateStatus(id, value) {
+        const body = JSON.stringify({
+            configId: id,
+            configStats: value,
+        });
         var config = {
             method: "post",
-            mode: "no-cors",
-            url: "https://0cmdwaivl2.execute-api.ap-southeast-1.amazonaws.com/dev/deleteconfig",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/config/updateStats",
             headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST",
+                "Content-Type": "application/json",
             },
-            data: item,
+            data: body,
+        };
+
+        var data = await axios(config)
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        return data;
+    },
+
+    async removeConfig(id) {
+        const body = JSON.stringify({
+            configId: id,
+        });
+        var config = {
+            method: "post",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/config/remove",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            data: body,
         };
 
         var data = await axios(config)
@@ -196,13 +220,10 @@ var module = {
 
     async getConfigList() {
         var config = {
-            method: "get",
-            mode: "cors",
-            url: "https://0cmdwaivl2.execute-api.ap-southeast-1.amazonaws.com/dev/getconfiglist",
+            method: "post",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/config/list",
             headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
+                "Content-Type": "application/json",
             },
         };
 
@@ -308,17 +329,25 @@ var module = {
         return data;
     },
 
-    async postConfig(item) {
+    async addConfig(item) {
+        var body = JSON.stringify({
+            apiKey: item.apiKey,
+            callbackUrl: item.callbackUrl,
+            configDesc: item.configDesc,
+            exchangeId: item.exchangeId,
+            name: item.name,
+            returnUrl: item.returnUrl,
+            sellerId: item.sellerId,
+            triggerSystem: item.triggerSystem,
+            url: item.url,
+        });
         var config = {
             method: "post",
-            mode: "no-cors",
-            url: "https://0cmdwaivl2.execute-api.ap-southeast-1.amazonaws.com/dev/postconfig",
-            headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST",
+            url: "https://kg6r1esoya.execute-api.ap-southeast-1.amazonaws.com/dev/config/add",
+            header: {
+                "Content-Type": "application/json",
             },
-            data: item,
+            data: body,
         };
 
         var data = await axios(config)

@@ -42,6 +42,7 @@
 </template>
 
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ref, defineProps, defineEmits } from "vue";
 const props = defineProps({
     title: String,
@@ -59,7 +60,7 @@ const props = defineProps({
 
 const bgModal = ref();
 
-const checkModal = (event) => {
+const checkModal = (event: any) => {
     if (bgModal.value === event.target) {
         updateValue(false);
     }
@@ -67,12 +68,11 @@ const checkModal = (event) => {
 
 // const openModal = defineEmits(["input", true]);
 
-// const emit = defineEmits(["update:modelValue"]);
-const closeModal = defineEmits(["close"]);
+const emit = defineEmits(["close", "update:modelValue"]);
 
-const updateValue = () => {
-    closeModal("close", false);
-    // emit("update:modelValue", value);
+const updateValue = (value: boolean) => {
+    emit("close", value);
+    emit("update:modelValue", value);
 };
 </script>
 

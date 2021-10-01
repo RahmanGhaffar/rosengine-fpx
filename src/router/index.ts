@@ -5,13 +5,20 @@ import { store } from "@/store";
 import Page404 from "../views/404.vue";
 
 const routes: Array<RouteRecordRaw> = [
+    // Test Payment
+    {
+        path: "/api/test",
+        name: "TestingAPI",
+        component: () => import("../views/testPayment.vue"),
+        meta: { authRequired: false },
+    },
     // Transaction Report
     {
         path: "/transaction-report",
         name: "Transaction Report",
         component: () =>
             import("../views/transactionReport/transactionReport.vue"),
-        meta: { authRequired: false },
+        meta: { authRequired: true },
     },
     // Configuration
     {
@@ -23,6 +30,12 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/config/manage",
         name: "configurationManage",
+        component: () => import("../views/configuration/manage.vue"),
+        meta: { authRequired: false },
+    },
+    {
+        path: "/config/manage/:id",
+        name: "configurationManageWithId",
         component: () => import("../views/configuration/manage.vue"),
         meta: { authRequired: false },
     },
@@ -191,6 +204,3 @@ router.beforeEach((routeTo, routeFrom, next) => {
 });
 
 export default router;
-function lazyLoadView(arg0: Promise<typeof import("*.vue")>) {
-    throw new Error("Function not implemented.");
-}

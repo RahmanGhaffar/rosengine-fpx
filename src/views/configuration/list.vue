@@ -14,7 +14,7 @@
                 :columns="tableConfig.columns"
                 :entries="dataState.entries"
                 :pagination="pagination"
-                :total-rows="totalRows"
+                :total-rows="dataState.totalRows"
                 @paginate="handlePagination"
                 @filter="handleFilter"
                 @sort="handleSort"
@@ -57,7 +57,7 @@
                 <label>Name :</label>
                 <span>{{ detail.value.name }}</span>
                 <label>Description :</label>
-                <span>Description for configuration</span>
+                <span>{{ detail.value.description }}</span>
                 <label>Status :</label>
                 <span>{{ detail.value.configStatus }}</span>
                 <label>API Key :</label>
@@ -65,7 +65,10 @@
                 <label>Date Added :</label>
                 <span>{{ detail.value.dateAdded }}</span>
                 <router-link
-                    to="/config/manage"
+                    :to="
+                        '/config/manage/' +
+                        returnURI(detail.value.fpxConfigurationId)
+                    "
                     class="row-end-7 col-end-4 place-self-end"
                 >
                     <button class="btn-base btn-dark mt-4">Manage</button>
@@ -76,6 +79,7 @@
 </template>
 
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Importing components
 import Layout from "@/components/layouts/Dashboard.vue";
 import Card from "@/components/containers/Card.vue";
@@ -85,20 +89,24 @@ import Modal from "@/components/containers/modal.vue";
 import { reactive, watchEffect, computed, onMounted } from "vue";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 // import tableConfig from "@/sample/tableConfig.json";
-import { getData, GetDataProps } from "@/sample/configSample";
+import { GetDataProps } from "@/sample/configSample";
+import API from "@/api";
 // import { store } from "@/store";
 // import auth from "@/store/modules/auth";
 // import { useStore } from "vuex";
 // const mutateAuth = auth.mutations;
 
 // import { useStore } from "@/store";
-const { entries, totalRows } = getData({});
+// const { entries, totalRows } = getData({});
 
 // const store = useStore();
 
 // const auth = computed(() => store.state.auth);
 
-onMounted(() => {
+onMounted(async () => {
+    const list = await API.getConfigList();
+    dataState.entries = list.data;
+    dataState.totalRows = list.data.length;
     // console.log(auth.value);
     // store.commit("auth/UPDATE_AUTH", "Ghaffar");
     // console.log(auth.value);
@@ -110,16 +118,27 @@ const icon = computed(() => ({
 }));
 
 const dataState = reactive({
-    entries,
-    totalRows,
+    entries: [],
+    totalRows: Number,
 });
 
 const detail = reactive({
     modal: false,
-    value: {},
+    value: {
+        fpxConfigurationId: String,
+        name: String,
+        description: String,
+        configStatus: String,
+        apiKey: String,
+        dateAdded: String,
+    },
 });
 
-const showDetail = (data) => {
+const returnURI = (val: any) => {
+    return encodeURIComponent(val);
+};
+
+const showDetail = (data: any) => {
     detail.value = data;
     detail.modal = true;
 };
@@ -166,9 +185,9 @@ const pagination = reactive<Table.Pagination>({
 
 // Handle data call here, preferably use async/await
 const updateData = (params: GetDataProps) => {
-    const { entries: nextEntries, totalRows: nextTotalRows } = getData(params);
-    dataState.entries = nextEntries;
-    dataState.totalRows = nextTotalRows;
+    // const { entries: nextEntries, totalRows: nextTotalRows } = getData(params);
+    // dataState.entries = nextEntries;
+    // dataState.totalRows = nextTotalRows;
 };
 
 // watchEffect used here to handle side effects, which allows async/await operation later on

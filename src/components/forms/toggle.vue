@@ -6,7 +6,12 @@
     >
         <span>Active</span>
         <label class="switch ml-2 mr-2">
-            <input type="checkbox" v-model="value" @change="showModal = true" />
+            <input
+                id="toggleStats"
+                type="checkbox"
+                :checked="props.modelValue === 'Active'"
+                @change="showModal = true"
+            />
             <span class="slider round"></span>
         </label>
         <span>Inactive</span>
@@ -15,11 +20,11 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref } from "vue";
+import { defineProps, defineEmits, ref, watch, computed } from "vue";
 import ConfirmModal from "../utils/modal/confirmModal.vue";
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "validate"]);
 const props = defineProps({
-    modelValue: Boolean,
+    modelValue: String,
     position: {
         type: String,
         required: false,
@@ -29,12 +34,19 @@ const props = defineProps({
 
 const showModal = ref(false);
 
-const value = ref(props.modelValue);
+const value = computed(() => {
+    return props.modelValue === "Active" ? true : false;
+});
 
 const updateValue = (valid: boolean) => {
-    if (!valid) value.value = !value.value;
+    var stats = !valid ? value.value : !value.value;
+    const setValue = stats ? "Active" : "Inactive";
 
-    emit("update:modelValue", value.value);
+    var toggle = document.getElementById("toggleStats");
+    toggle.checked = stats;
+
+    emit("update:modelValue", setValue);
+    emit("validate", valid);
     showModal.value = false;
 };
 </script>

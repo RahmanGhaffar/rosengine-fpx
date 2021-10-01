@@ -1,13 +1,23 @@
 /
 <template>
     <div class="flex w-max gap-4">
-        <input
+        <!-- <input
             v-for="index in props.length"
             :id="'pin' + index"
             :key="index"
             type="password"
             maxlength="1"
-            @keyup="test($event)"
+            @keydown="test($event)"
+            class="custom-border w-8 text-center"
+        /> -->
+        <input
+            v-for="(value, index) in state.testArray"
+            v-model="state.testArray[index]"
+            :id="'pin' + index"
+            :key="index"
+            type="password"
+            maxlength="1"
+            @keydown="test($event)"
             class="custom-border w-8 text-center"
         />
         <!-- <input
@@ -23,8 +33,14 @@
 </template>
 
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { defineProps, defineEmits, computed } from "vue";
+import { defineProps, defineEmits, computed, reactive, onMounted } from "vue";
+
+const state = reactive({
+    testArray: new Array(6).fill(undefined),
+    focusedIndex: 0,
+});
+
+const pin = computed(() => state.testArray.join(""));
 
 const props = defineProps({
     modelValue: {
@@ -37,23 +53,27 @@ const props = defineProps({
     },
 });
 
+onMounted(() => {
+    document.getElementById(`pin0`)?.focus();
+});
+
 const input = computed(() => props.modelValue);
 
 const emit = defineEmits(["update:modelValue"]);
 
 const test = (event: any) => {
     const numberOnly = /^[0-9]*$/;
-    const id = parseInt(event.target.id.substr(3)) || 0;
+    const id = parseInt(event.target.id.substr(3));
 
     if (event.key === "Backspace" || event.key === "Delete") {
-        const idBefore = id - 1 || 0;
+        const idBefore = id - 1;
         var delValue =
             input.value.substr(0, id - 1) + "-" + input.value.substr(id);
 
         emit("update:modelValue", delValue.substr(0, props.length));
 
         if (idBefore > 0) {
-            document.getElementById("pin" + idBefore).focus();
+            document.getElementById("pin" + idBefore)?.focus();
         }
     } else if (event.key.match(numberOnly)) {
         var newValue =
@@ -62,9 +82,9 @@ const test = (event: any) => {
         emit("update:modelValue", newValue.substr(0, props.length));
 
         if (id < props.length) {
-            const idNext = id + 1 || 0;
-            const idStr = "pin" + idNext || "dwadawd";
-            document.getElementById(idStr).focus();
+            const idNext = id + 1;
+            const idStr = "pin" + idNext.toString();
+            document.getElementById(idStr)?.focus();
         }
     } else {
         return;
@@ -100,7 +120,8 @@ const test = (event: any) => {
 
 <style lang="postcss" scoped>
 .custom-border {
-    border-bottom-width: 1px;
+    border: none;
+    border-bottom: 1px solid;
     border-color: rgb(0, 0, 0, 0.3);
 }
 </style>

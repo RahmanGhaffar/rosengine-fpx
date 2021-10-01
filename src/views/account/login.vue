@@ -75,7 +75,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 
 const router = useRouter();
-const route = useRoute();
+// const route = useRoute();
 // import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 const login = reactive({

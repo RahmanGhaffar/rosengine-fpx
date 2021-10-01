@@ -19,7 +19,6 @@
                 </span>
                 <div class="text-center w-max">
                     <span>6 digits PIN</span>
-                    {{ pin }}
                     <Pin v-model="pin" :length="6" />
                 </div>
                 <span>

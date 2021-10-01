@@ -6,7 +6,7 @@
         <Card class="mb-12">
             <form
                 method="post"
-                @submit.prevent="addConfig"
+                @submit.prevent="addModal = true"
                 class="form-control"
             >
                 <Input
@@ -17,13 +17,13 @@
                 />
                 <Input
                     id="configDesc"
-                    v-model="config.desc"
+                    v-model="config.configDesc"
                     label-position="side"
                     label="Description"
                 />
                 <Dropdown
                     id="dropdownSystem"
-                    v-model="config.system"
+                    v-model="config.triggerSystem"
                     labelPosition="side"
                     label="Trigger System"
                     :options="dropdown.system"
@@ -56,21 +56,32 @@
                     labelPosition="side"
                     label="Seller ID"
                     :options="dropdown.sellerId"
+                    @update="updateSeller"
                 />
                 <div class="flex mb-10 mr-4">
                     <label class="flex-1 max-w-input-label mt-2">API key</label>
-                    <input type="text" disabled id="fname" name="fname" />
+                    <input type="text" v-model="config.apiKey" disabled />
                     <button
                         type="button"
                         class="btn-base btn-light inline-flex w-max"
                         @click="generateModal = true"
                     >
-                        Regenerate New
+                        Generate New
                     </button>
                 </div>
                 <button
-                    type="Submit"
+                    type="submit"
                     class="btn-lg btn-primary block self-end mr-4"
+                    :disabled="
+                        config.name === '' ||
+                        config.configDesc === '' ||
+                        config.triggerSystem === '' ||
+                        config.returnUrl === '' ||
+                        config.callbackUrl === '' ||
+                        config.exchangeId === '' ||
+                        config.sellerId === '' ||
+                        config.apiKey === ''
+                    "
                 >
                     Submit
                 </button>
@@ -78,17 +89,21 @@
         </Card>
     </Layout>
     <!-- Add Configuration -->
-    <ConfirmModal v-model="addModal"
+    <ConfirmModal v-model="addModal" @validate="addConfig"
         >You are about to add a Configuration for a System.</ConfirmModal
     >
     <!-- generate new APi Key -->
-    <ConfirmModal v-model="generateModal"
+    <ConfirmModal v-model="generateModal" @validate="generateKey"
         >You are about generate a new API Key for the
         Configuration.</ConfirmModal
+    >
+    <SuccessModal v-model="successAddModal" @close="goToManage"
+        >The Configuration has been added.</SuccessModal
     >
 </template>
 
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Importing components
 import Layout from "@/components/layouts/Dashboard.vue";
 import Card from "@/components/containers/Card.vue";
@@ -98,14 +113,18 @@ import Dropdown from "@/components/forms/Dropdown.vue";
 import API from "@/api";
 import { reactive, ref, onBeforeMount } from "vue";
 import { store } from "@/store";
+import SuccessModal from "@/components/utils/modal/successModal.vue";
+import router from "@/router";
 
 onBeforeMount(async () => {
     const currentOrg = store.state.org.currentOrg;
-    const data = await API.getConfigSelect(currentOrg.organisationId);
+    const data = await API.getTriggerSystemSelect(currentOrg);
+    console.log(data);
     dropdown.system = data.data;
 
     const exchange = await API.getExchangeSelect();
     dropdown.exchangeId = exchange.data;
+    console.log(exchange);
 });
 
 // Dropdown COnfiguration
@@ -116,10 +135,10 @@ const dropdown = reactive({
 });
 
 const updateSystem = (value: any) => {
-    config.system = value.value;
-    const stats = dropdown.system.find(
-        (e) => e["value"] === config.system.value
-    );
+    config.triggerSystem = value.value;
+    const stats = dropdown.system.find((e) => {
+        return e.value === config.triggerSystem;
+    });
     config.url = stats.systemDomainURL + "/";
 };
 
@@ -130,10 +149,14 @@ const updateExchange = async (value: any) => {
     dropdown.sellerId = resp.data;
 };
 
+const updateSeller = async (value: any) => {
+    config.sellerId = value.value;
+};
+
 const config = reactive({
     name: "",
-    desc: "",
-    system: "",
+    configDesc: "",
+    triggerSystem: "",
     url: "",
     returnUrl: "",
     callbackUrl: "",
@@ -142,11 +165,34 @@ const config = reactive({
     apiKey: "",
 });
 
+const newId = ref("");
+
+const generateKey = async (valid: any) => {
+    if (valid) {
+        const key = await API.generateKey();
+        console.log(key);
+        config.apiKey = key.data.apiKey;
+        generateModal.value = false;
+    }
+};
+
 const generateModal = ref(false);
 const addModal = ref(false);
+const successAddModal = ref(false);
 
-const addConfig = () => {
-    addModal.value = true;
+const addConfig = async (valid: any) => {
+    console.log(config);
+    if (valid) {
+        var resp = await API.addConfig(config);
+        if (resp.message === "success") {
+            successAddModal.value = true;
+            newId.value = resp.id;
+        }
+    }
+};
+
+const goToManage = () => {
+    router.push("/config/manage/" + encodeURIComponent(newId.value));
 };
 </script>
 

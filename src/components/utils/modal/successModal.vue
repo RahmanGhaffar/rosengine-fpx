@@ -40,9 +40,10 @@ const props = defineProps({
 
 const computeModal = computed(() => props.modal);
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "close"]);
 
-const updateValue = (value: string) => {
+const updateValue = (value: boolean) => {
     emit("update:modelValue", value);
+    emit("close", value);
 };
 </script>

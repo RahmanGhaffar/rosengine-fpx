@@ -85,6 +85,7 @@ import {
     ref,
     defineEmits,
     useSlots,
+    watch,
 } from "vue";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -102,7 +103,8 @@ type DropdownProps = {
     label: string;
     options?: Array<DropdownOption>;
     placeholder?: string;
-    noLabel: string;
+    noLabel?: string;
+    selected?: string;
 };
 
 const dropdownProps = withDefaults(defineProps<DropdownProps>(), {
@@ -111,6 +113,7 @@ const dropdownProps = withDefaults(defineProps<DropdownProps>(), {
     placeholder: "Please select one...",
     options: () => [],
     noLabel: "",
+    selected: "",
 });
 
 type DropdownState = {
@@ -151,6 +154,10 @@ const selectedOption = computed(() =>
         (option) => option.value === dropdownState.selected
     )
 );
+
+watch(dropdownProps, (newValue, oldValue) => {
+    dropdownState.selected = dropdownProps.selected;
+});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleClick = (e: any) => {

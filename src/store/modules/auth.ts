@@ -115,13 +115,13 @@ const actions = {
     //     })
     // },
 
-    validate({ commit, state }: any) {
+    async validate({ commit, state }: any) {
         if (!state.currentUser) {
             console.log("current user is null");
             return Promise.resolve(null);
         }
 
-        return axios
+        return await axios
             .get(baseurl + "/validate", {
                 withCredentials: true,
                 Origin: origin,
@@ -142,14 +142,14 @@ const actions = {
     },
 
     // // Logs out the current user.
-    logOut({ commit }: any) {
+    async logOut({ commit }: any) {
         // const user = getters.detailValue;
         // const log = {
         //     email: user.userEmail,
         //     desc: "success logout",
         // };
         // API.postLoginLog(log);
-        return axios
+        return await axios
             .get(baseurl + "/logout", {
                 withCredentials: true,
                 Origin: origin,
