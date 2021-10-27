@@ -23,7 +23,7 @@ const state = {
 const mutations = {
     SET_CURRENT_USER(state: any, newValue: any): void {
         state.currentUser = newValue;
-        saveState("auth.currentUser", newValue);
+        // saveState("auth.currentUser", newValue);
         setDefaultAuthHeaders(state);
     },
 
@@ -44,6 +44,14 @@ const getters = {
 
     detailValue: (state: any) => {
         return state.detail;
+    },
+
+    currentUser: (state: any) => {
+        return state.currentUser;
+    },
+
+    accessKey: () => {
+        return !!getCookie("Token");
     },
 };
 
@@ -79,8 +87,15 @@ const actions = {
             )
             .then(async (response) => {
                 const user = response.data;
-                await dispatch("saveUserDetailAsync", user);
 
+                await dispatch("saveUserDetailAsync", {
+                    auth: user.auth,
+                    username: user.username,
+                    email: user.email,
+                    admin: user.admin,
+                });
+
+                await setCookie("Token", user.accessToken);
                 if (user.auth === true) {
                     window.localStorage.removeItem("auth.expired");
                     commit("SET_CURRENT_USER", user);
@@ -116,29 +131,37 @@ const actions = {
     // },
 
     async validate({ commit, state }: any) {
-        if (!state.currentUser) {
-            console.log("current user is null");
-            return Promise.resolve(null);
-        }
+        // if (!state.currentUser) {
+        //     alert("user is null");
+        //     return Promise.resolve(null);
+        // }
 
-        return await axios
+        const res = await axios
             .get(baseurl + "/validate", {
                 withCredentials: true,
                 Origin: origin,
             })
             .then((response) => {
                 const user = response.data;
-                commit("SET_CURRENT_USER", user);
+                commit("SET_CURRENT_USER", {
+                    auth: user.auth,
+                    username: user.username,
+                    email: user.email,
+                    admin: user.admin,
+                });
+
+                setCookie("Token", user.accessToken);
                 return user;
             })
-            .catch(() => {
+            .catch((err) => {
                 // if (error.response) {
                 //   commit('SET_CURRENT_USER', null)
                 // }
                 // console.log(error.response)
                 commit("SET_CURRENT_USER", null);
-                return null;
+                return err;
             });
+        return res;
     },
 
     // // Logs out the current user.
@@ -154,9 +177,10 @@ const actions = {
                 withCredentials: true,
                 Origin: origin,
             })
-            .then(() => {
-                // console.log(response)
+            .then((response) => {
+                console.log(response);
                 commit("SET_CURRENT_USER", null);
+                deleteCookie("Token");
             })
             .catch((error) => {
                 console.log(error);
@@ -242,9 +266,44 @@ function saveState(key: any, state: any) {
 }
 
 function setDefaultAuthHeaders(state: any) {
+    const cookieArr = document.cookie.split("=");
+    const cookie = cookieArr[1];
     axios.defaults.headers.common.Authorization = state.currentUser
-        ? "Bearer " + state.currentUser.accessToken
+        ? "Bearer " + cookie
         : "";
+}
+
+// get cookie based on name
+function getCookie(name: string) {
+    const cookie = document.cookie.split(";");
+
+    const detect = cookie.find(function (e) {
+        if (e.includes(name)) {
+            return e;
+        }
+    });
+
+    return detect?.replace(name + "=", "");
+}
+
+// set cookie
+function setCookie(name: string, value: string) {
+    const d = new Date();
+    d.setTime(d.getTime() + 12 * 60 * 60 * 1000);
+    const expires = "Expires=" + d.toUTCString();
+    document.cookie =
+        name +
+        "=" +
+        value +
+        ";" +
+        expires +
+        ";domain=" +
+        process.env.VUE_APP_TOKEN_DOMAIN +
+        ";path=/;SameSite=None; secure";
+}
+
+function deleteCookie(name: string) {
+    document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=${process.env.VUE_APP_TOKEN_DOMAIN};`;
 }
 
 export default {

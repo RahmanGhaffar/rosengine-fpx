@@ -280,14 +280,16 @@ const state = reactive<State>({
 const changeFocusedMenu = (selectedPath: string) => {
     if (selectedPath.startsWith("/")) {
         return router.push(selectedPath);
-    } else if (selectedPath === "/api/docs") {
-        window
-            .open(
-                "https://documenter.getpostman.com/view/7603697/UUxwBorG",
-                "_blank"
-            )
-            .focus();
     }
+    // else if (selectedPath === "/api/docs") {
+    //     window
+    //         .open(
+    //             "https://documenter.getpostman.com/view/7603697/UUxwBorG",
+    //             "_blank"
+
+    //         )
+    //         .focus();
+    // }
 
     if (state.focusedMenu !== selectedPath) state.focusedMenu = selectedPath;
     else state.focusedMenu = undefined;

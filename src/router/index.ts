@@ -5,13 +5,13 @@ import { store } from "@/store";
 import Page404 from "../views/404.vue";
 
 const routes: Array<RouteRecordRaw> = [
-    // Test Payment
-    {
-        path: "/api/test",
-        name: "TestingAPI",
-        component: () => import("../views/testPayment.vue"),
-        meta: { authRequired: false },
-    },
+    // // Test Payment
+    // {
+    //     path: "/api/test",
+    //     name: "TestingAPI",
+    //     component: () => import("../views/testPayment.vue"),
+    //     meta: { authRequired: false },
+    // },
     // Transaction Report
     {
         path: "/transaction-report",
@@ -75,6 +75,13 @@ const routes: Array<RouteRecordRaw> = [
         meta: { authRequired: false },
     },
 
+    {
+        path: "/api/test",
+        name: "test api",
+        component: () => import("../views/apiTest.vue"),
+        meta: { authRequired: false },
+    },
+
     // Account Page
     {
         path: "/login",
@@ -115,21 +122,31 @@ const routes: Array<RouteRecordRaw> = [
         name: "logout",
         meta: {
             authRequired: false,
-            async beforeResolve(routeTo: any, routeFrom: any, next: any) {
-                await store.dispatch("auth/logOut");
-                localStorage.removeItem("user");
-                const authRequiredOnPreviousRoute = routeFrom.matched.some(
-                    (route: any) => route.meta.authRequired
-                );
-                // Navigate back to previous page, or home as a fallback
-                next(
-                    authRequiredOnPreviousRoute
-                        ? { name: "dashboard" }
-                        : { ...routeFrom }
-                );
-            },
         },
-        redirect: { name: "login" },
+        beforeEnter: async (routeTo: any, routeFrom: any, next: any) => {
+            await store.dispatch("auth/logOut");
+            // localStorage.removeItem("user");
+            const authRequiredOnPreviousRoute = routeFrom.matched.some(
+                (route: any) => route.meta.authRequired
+            );
+            // Navigate back to previous page, or home as a fallback
+            next(
+                authRequiredOnPreviousRoute
+                    ? { name: "dashboard" }
+                    : { ...routeFrom }
+            );
+        },
+        component: { name: "404" },
+        // redirect: { name: "login" },
+    },
+
+    {
+        path: "/auth/:token",
+        name: "validate user",
+        beforeEnter: (to: any, from: any, next: any) => {
+            console.log(to.params.token);
+        },
+        component: { name: "404" },
     },
     //   {
     //     path: '/forget-password',
@@ -180,15 +197,20 @@ router.beforeEach((routeTo, routeFrom, next) => {
     // If auth isn't required for the route, just continue.
     if (!authRequired) return next();
 
+    console.log(store.getters["auth/accessKey"]);
+
     // If auth is required and the user is logged in...
-    if (store.getters["auth/loggedIn"]) {
+    if (store.getters["auth/accessKey"]) {
         // Validate the local user token...
         return store.dispatch("auth/validate").then((validUser) => {
             // Then continue if the token still represents a valid user,
             // otherwise redirect to login.
+
             validUser ? next() : redirectToLogin();
         });
     }
+
+    console.log("redirect to login");
 
     // If auth is required and the user is NOT currently logged in,
     // redirect to login.
@@ -196,10 +218,14 @@ router.beforeEach((routeTo, routeFrom, next) => {
 
     function redirectToLogin() {
         // Pass the original route to the login component
-        next({
-            name: "Login",
-            query: { redirectFrom: encodeURIComponent(routeTo.fullPath) },
-        });
+        window.location.href =
+            process.env.VUE_APP_URL +
+            "/login?redirectFrom=" +
+            encodeURIComponent(process.env.VUE_APP_FPX_URL + routeTo.fullPath);
+        // next({
+        //     name: "login",
+        //     query: { redirectFrom: encodeURIComponent(routeTo.fullPath) },
+        // });
     }
 });
 

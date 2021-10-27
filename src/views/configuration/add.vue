@@ -119,8 +119,8 @@ import router from "@/router";
 onBeforeMount(async () => {
     const currentOrg = store.state.org.currentOrg;
     const data = await API.getTriggerSystemSelect(currentOrg);
-    console.log(data);
     dropdown.system = data.data;
+    console.log(dropdown.system);
 
     const exchange = await API.getExchangeSelect();
     dropdown.exchangeId = exchange.data;

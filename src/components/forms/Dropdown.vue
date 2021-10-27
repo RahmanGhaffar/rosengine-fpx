@@ -163,10 +163,10 @@ watch(dropdownProps, (newValue, oldValue) => {
 const handleClick = (e: any) => {
     dropdownState.openDropdown = !dropdownState.openDropdown;
 
-    console.log({
-        position: e.clientY,
-        height,
-    });
+    // console.log({
+    //     position: e.clientY,
+    //     height,
+    // });
     dropdownState.dropdownDirection =
         e.clientY + 350 > height.value ? "top" : "bottom";
 };

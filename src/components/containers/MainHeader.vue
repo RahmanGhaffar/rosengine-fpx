@@ -25,19 +25,29 @@
                 <FontAwesomeIcon :icon="icon.faHome" />
             </button>-->
         </div>
+
         <div class="flex">
-            <Dropdown id="org" noLabel="true" :options="org.options">
+            <Dropdown
+                id="org"
+                noLabel="true"
+                :options="org.options"
+                @update="updateOrg"
+                label=""
+            >
                 <template #options="{ option }">
                     <div class="flex">
-                        <Avatar v-model="option.label" size="sm" />
+                        <!-- <Avatar v-model="option.label" size="sm" /> -->
                         <span class="flex flex-nowrap ml-2">{{
                             option.label
                         }}</span>
                     </div></template
                 >
                 <!-- <template #options_selected="{ option }">
-                    <div class="flex items-baseline"><Avatar v-model="option.label" size="sm" />
-                    <span class="flex flex-nowrap ml-2">{{ option.label }}</span></div></template
+                    <div class="flex items-baseline">
+                        <span class="flex flex-nowrap ml-2">{{
+                            option.label
+                        }}</span>
+                    </div></template
                 > -->
             </Dropdown>
 
@@ -65,7 +75,7 @@
     </header>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed, reactive, ref, onMounted } from "vue";
 import { useStore } from "@/store";
 import {
@@ -80,8 +90,8 @@ import Dropdown from "@/components/forms/Dropdown.vue";
 import Avatar from "@/components/utils/avatar.vue";
 
 onMounted(() => {
-    const detail = store.getters["auth/detailValue"];
-    name.value = detail.userName;
+    const detail = store.getters["auth/currentUser"];
+    name.value = detail.username;
 });
 
 const name = ref("");
@@ -98,15 +108,20 @@ const icon = computed(() => ({
 const org = reactive({
     options: [
         {
-            name: "ansiCode",
+            value: "ansiCode",
             label: "ANSI Systems",
         },
         {
-            name: "tybCode",
+            value: "tybCode",
             label: "toyyibPay Sdn Bhd",
         },
     ],
+    selected: "",
 });
+
+const updateOrg = async (value) => {
+    org.selected = value.value;
+};
 
 const toggleSidebar = () => store.commit("layout/toggleSidebar");
 </script>
@@ -120,6 +135,6 @@ const toggleSidebar = () => store.commit("layout/toggleSidebar");
 }
 .setting-option {
     text-decoration: unset;
-    @apply block px-4 py-2 text-sm text-black hover:bg-primary-100 flex items-baseline gap-3;
+    @apply block px-4 py-2 text-sm text-black hover:bg-primary-100 gap-3;
 }
 </style>

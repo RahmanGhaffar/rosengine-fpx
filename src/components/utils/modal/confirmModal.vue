@@ -20,6 +20,7 @@
                 <div class="text-center w-max">
                     <span>6 digits PIN</span>
                     <Pin v-model="pin" :length="6" />
+                    {{ pin }}
                 </div>
                 <span>
                     Enter your 6 digits Personal Identification Number (PIN)

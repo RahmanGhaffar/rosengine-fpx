@@ -9,7 +9,7 @@
             maxlength="1"
             @keydown="test($event)"
             class="custom-border w-8 text-center"
-        /> -->
+        />-->
         <input
             v-for="(value, index) in state.testArray"
             v-model="state.testArray[index]"
